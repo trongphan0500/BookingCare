@@ -22,6 +22,8 @@ public class Patient extends User {
 	
 	private int weight;
 	
+	private String job;
+	
 	@OneToMany(mappedBy = "patient")
 	private List<ExamninationHistory> examninationHistories;
 	

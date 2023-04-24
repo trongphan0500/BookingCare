@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -31,7 +33,7 @@ public class User {
 	private String password;
 	
 	private String address;
-	
+		
 	private String phone;
 	
 	private String avatar;
@@ -55,8 +57,8 @@ public class User {
 	private String position;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-	private Role role;
+	@JoinColumn(name = "role_id", unique = true)
+    private Role role;
 	
 	@Column(name = "created_at")
 	private Date createdAt;

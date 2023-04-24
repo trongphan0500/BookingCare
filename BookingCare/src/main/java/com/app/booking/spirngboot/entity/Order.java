@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -48,9 +50,6 @@ public class Order {
 	
 	private String description;
 	
-	@OneToMany(mappedBy = "order")
-	private List<OrderDetail> orderDetails;
-	
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
@@ -58,6 +57,12 @@ public class Order {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "examnination_history_id")
 	private ExamninationHistory examninationHistory;
+	
+	@ManyToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+	private List<Service> services;
+	
+	@ManyToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+	private List<Medicine> medicines;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
