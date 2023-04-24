@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -49,22 +48,40 @@ public class Medicine {
 	private float costPrice;
 
 	private boolean status;
-	
+
 	private String type;
 
-	@Column(name = "wastage_rate")
-	private int wastageRate;
+	private String note;
 	
-	@ManyToMany(mappedBy = "medicines",fetch = FetchType.LAZY)
+	@Column(name = "storage_unit")
+	private String storageUnit;
+	
+	@Column(name = "use_unit")
+	private String useUnit;
+	
+	@Column(name = "method_of_use")
+	private String methodOfUse;
+
+	@Column(name = "original_name")
+	private String originalName;
+
+	@Column(name = "out_expiry_date_alert")
+	private int outExpiryDateAlert;
+
+	@ManyToMany(mappedBy = "medicines", fetch = FetchType.LAZY)
 	private List<Consultation> consultations;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	@ManyToMany(mappedBy = "medicines",fetch = FetchType.LAZY)
+
+	@ManyToMany(mappedBy = "medicines", fetch = FetchType.LAZY)
 	private List<WarehouseSession> warehouseSessions;
-	
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "order_medicine_details", joinColumns = @JoinColumn(name = "medicine_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+	private List<Order> orders;
+
 	@Column(name = "created_at")
 	private Date createdAt;
 
@@ -97,6 +114,54 @@ public class Medicine {
 
 	public String getCode() {
 		return code;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public int getOutExpiryDateAlert() {
+		return outExpiryDateAlert;
+	}
+
+	public void setOutExpiryDateAlert(int outExpiryDateAlert) {
+		this.outExpiryDateAlert = outExpiryDateAlert;
+	}
+
+	public List<Consultation> getConsultations() {
+		return consultations;
+	}
+
+	public void setConsultations(List<Consultation> consultations) {
+		this.consultations = consultations;
+	}
+
+	public List<WarehouseSession> getWarehouseSessions() {
+		return warehouseSessions;
+	}
+
+	public void setWarehouseSessions(List<WarehouseSession> warehouseSessions) {
+		this.warehouseSessions = warehouseSessions;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public void setCode(String code) {
@@ -167,14 +232,6 @@ public class Medicine {
 		this.status = status;
 	}
 
-	public int getWastageRate() {
-		return wastageRate;
-	}
-
-	public void setWastageRate(int wastageRate) {
-		this.wastageRate = wastageRate;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -198,8 +255,5 @@ public class Medicine {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	
-
 
 }

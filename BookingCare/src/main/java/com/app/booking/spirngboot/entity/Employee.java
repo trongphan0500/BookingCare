@@ -20,4 +20,7 @@ public class Employee extends User {
 	
 	@OneToMany(mappedBy = "employee")
 	private List<Order> orders;
+	
+	@OneToMany(mappedBy = "employee")
+	private List<WarehouseSession> warehouseSessions;
 }
