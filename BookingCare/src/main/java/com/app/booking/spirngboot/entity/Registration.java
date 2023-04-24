@@ -32,6 +32,12 @@ public class Registration {
 	private int status;
 
 	private int type;
+	
+	@Column(name = "examination_fee")
+	private float examinationFee;
+	
+	@Column(name = "cardinal_number")
+	private int cardinalNumber;
 
 	@Column(name = "created_at")
 	private Date createdAt;

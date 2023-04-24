@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,27 +23,24 @@ public class Consultation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String code;
-	
-	private String diagnasis;
-	
+
+	private String diagnosis;
+
 	private String treatment;
-	
+
 //	@OneToMany(mappedBy = "consultation")
 //	private List<ConsultationDetail> consultationDetails;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "consultation_details",
-               joinColumns = @JoinColumn(name = "consultation_id"),
-               inverseJoinColumns = @JoinColumn(name = "medicine_id"))
-    private List<Medicine> medicines;
-	
+	@JoinTable(name = "consultation_details", joinColumns = @JoinColumn(name = "consultation_id"), inverseJoinColumns = @JoinColumn(name = "medicine_id"))
+	private List<Medicine> medicines;
+
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "examnination_history_id")
-    private ExamninationHistory examninationHistory;
-	
-	
+	@JoinColumn(name = "examnination_history_id")
+	private ExamninationHistory examninationHistory;
+
 	@Column(name = "created_at")
 	private Date createdAt;
 
@@ -67,12 +63,44 @@ public class Consultation {
 		this.code = code;
 	}
 
-	public String getDiagnasis() {
-		return diagnasis;
+	public String getDiagnosis() {
+		return diagnosis;
 	}
 
-	public void setDiagnasis(String diagnasis) {
-		this.diagnasis = diagnasis;
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public List<Medicine> getMedicines() {
+		return medicines;
+	}
+
+	public void setMedicines(List<Medicine> medicines) {
+		this.medicines = medicines;
+	}
+
+	public ExamninationHistory getExamninationHistory() {
+		return examninationHistory;
+	}
+
+	public void setExamninationHistory(ExamninationHistory examninationHistory) {
+		this.examninationHistory = examninationHistory;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public String getTreatment() {
@@ -82,7 +110,5 @@ public class Consultation {
 	public void setTreatment(String treatment) {
 		this.treatment = treatment;
 	}
-	
-	
-	
+
 }

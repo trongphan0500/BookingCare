@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -48,6 +49,10 @@ public class WarehouseSession {
 	private int discountType;
 	
 	private String description;
+	
+	@ManyToOne
+	@JoinColumn(name = "employee_id")
+	private Employee employee;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "warehouse_session_details",

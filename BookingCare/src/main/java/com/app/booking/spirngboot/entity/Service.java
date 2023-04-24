@@ -47,6 +47,12 @@ public class Service {
                inverseJoinColumns = @JoinColumn(name = "registration_id"))
     private List<Registration> registrations;
 	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "order_service_details",
+               joinColumns = @JoinColumn(name = "service_id"),
+               inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private List<Order> orders;
+	
 //	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinTable(name = "service_details",
 //               joinColumns = @JoinColumn(name = "service_id"),
