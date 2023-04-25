@@ -47,18 +47,18 @@ public class Medicine {
 	@Column(name = "cost_price")
 	private float costPrice;
 
-	private boolean status;
+	private int status;
 
 	private String type;
 
 	private String note;
-	
+
 	@Column(name = "storage_unit")
 	private String storageUnit;
-	
+
 	@Column(name = "use_unit")
 	private String useUnit;
-	
+
 	@Column(name = "method_of_use")
 	private String methodOfUse;
 
@@ -224,12 +224,36 @@ public class Medicine {
 		this.costPrice = costPrice;
 	}
 
-	public boolean isStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getStorageUnit() {
+		return storageUnit;
+	}
+
+	public void setStorageUnit(String storageUnit) {
+		this.storageUnit = storageUnit;
+	}
+
+	public String getUseUnit() {
+		return useUnit;
+	}
+
+	public void setUseUnit(String useUnit) {
+		this.useUnit = useUnit;
+	}
+
+	public String getMethodOfUse() {
+		return methodOfUse;
+	}
+
+	public void setMethodOfUse(String methodOfUse) {
+		this.methodOfUse = methodOfUse;
 	}
 
 	public Category getCategory() {
