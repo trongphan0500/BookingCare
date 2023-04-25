@@ -20,7 +20,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 				.getActualTypeArguments()[1];
 	}
 
-	@Autowired
+	@Autowired	
 	private SessionFactory sessionFactory;
 
 	protected Session getSession() {
@@ -31,7 +31,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		return this.getSession().getCriteriaBuilder();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public T getByKey(PK key) {
 		return (T) getSession().get(persistentClass, key);
 	}
@@ -41,7 +41,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		return entity;
 	}
 
-	protected Criteria createEntityCriteria(){
+	protected Criteria createEntityCriteria() {
 		return getSession().createCriteria(persistentClass);
 	}
 
