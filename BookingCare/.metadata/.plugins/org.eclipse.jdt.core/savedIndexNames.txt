@@ -1,0 +1,12 @@
+INDEX VERSION 1.131+D:\Nam4_Ky2\DoAnTotNghiep\HealthyCare\BookingCare\BookingCare\.metadata\.plugins\org.eclipse.jdt.core
+292011997.index
+54308030.index
+1276942854.index
+318130473.index
+4080351523.index
+2033881294.index
+1598426821.index
+604727161.index
+3243106525.index
+53868116.index
+158208476.index
