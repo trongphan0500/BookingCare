@@ -1,23 +1,20 @@
 package com.app.booking.springboot.service;
-//package com.app.booking.spirngboot.service;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.app.booking.spirngboot.dao.UserDao;
-//import com.app.booking.spirngboot.entity.User;
-//
-//@Service
-//public class UserServiceImpl implements UserService {
-//
-//	@Autowired
-//	private UserDao repository;
-//
-//	@Override
-//	public List<User> getAll() throws Exception {
-//		return repository.getAll();
-//	}
-//
-//}
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.booking.springboot.dao.UserDao;
+import com.app.booking.springboot.entity.User;
+
+@Service("userService")
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserDao userDao;
+
+	@Override
+	public User findOne(int id) throws Exception {
+		return userDao.findOne(id);
+	}
+
+}

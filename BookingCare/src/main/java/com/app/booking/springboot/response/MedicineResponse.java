@@ -1,27 +1,29 @@
-package com.app.booking.springboot.request;
+package com.app.booking.springboot.response;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.app.booking.springboot.entity.Medicine;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-public class CreateMedicineRequest {
-	
-	
-	@JsonProperty("category_id")
-	private int categoryId;
+public class MedicineResponse {
+	private int id;
 
-	@NotEmpty(message = "Vui lòng nhập tên")
 	private String name;
 
-	@NotNull(message = "avatar không được null")
 	private String avatar;
 
+	private String code;
+
 	@JsonProperty("expiry_date")
-	
 	private Date expiryDate;
+
+	@JsonProperty("normalize_name")
+	private String normalizeName;
+
+	@JsonProperty("prefix_name")
+	private String prefixName;
 
 	@JsonProperty("out_stock_alert_quantity")
 	private int outStockAlertQuantity;
@@ -33,6 +35,8 @@ public class CreateMedicineRequest {
 	private float costPrice;
 
 	private int status;
+
+	private String type;
 
 	private String note;
 
@@ -51,12 +55,48 @@ public class CreateMedicineRequest {
 	@JsonProperty("out_expiry_date_alert")
 	private int outExpiryDateAlert;
 
-	public int getCategoryId() {
-		return categoryId;
+	@JsonProperty("created_at")
+	private Date createdAt;
+
+	@JsonProperty("updated_at")
+	private Date updatedAt;
+
+	public MedicineResponse() {
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public MedicineResponse(Medicine entity) {
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.avatar = entity.getAvatar();
+		this.code = entity.getCode();
+		this.expiryDate = entity.getExpiryDate();
+		this.normalizeName = entity.getNormalizeName();
+		this.prefixName = entity.getPrefixName();
+		this.outStockAlertQuantity = entity.getOutStockAlertQuantity();
+		this.retailPrice = entity.getRetailPrice();
+		this.costPrice = entity.getCostPrice();
+		this.status = entity.getStatus();
+		this.type = entity.getType();
+		this.note = entity.getNote();
+		this.storageUnit = entity.getStorageUnit();
+		this.useUnit = entity.getUseUnit();
+		this.methodOfUse = entity.getMethodOfUse();
+		this.originalName = entity.getOriginalName();
+		this.outExpiryDateAlert = entity.getOutExpiryDateAlert();
+		this.createdAt = entity.getCreatedAt();
+		this.updatedAt = entity.getUpdatedAt();
+	}
+
+	public List<MedicineResponse> mapToList(List<Medicine> entiies) {
+		return entiies.stream().map(x -> new MedicineResponse(x)).collect(Collectors.toList());
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -75,12 +115,36 @@ public class CreateMedicineRequest {
 		this.avatar = avatar;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
 
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
+	}
+
+	public String getNormalizeName() {
+		return normalizeName;
+	}
+
+	public void setNormalizeName(String normalizeName) {
+		this.normalizeName = normalizeName;
+	}
+
+	public String getPrefixName() {
+		return prefixName;
+	}
+
+	public void setPrefixName(String prefixName) {
+		this.prefixName = prefixName;
 	}
 
 	public int getOutStockAlertQuantity() {
@@ -113,6 +177,14 @@ public class CreateMedicineRequest {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getNote() {
@@ -161,6 +233,22 @@ public class CreateMedicineRequest {
 
 	public void setOutExpiryDateAlert(int outExpiryDateAlert) {
 		this.outExpiryDateAlert = outExpiryDateAlert;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 }

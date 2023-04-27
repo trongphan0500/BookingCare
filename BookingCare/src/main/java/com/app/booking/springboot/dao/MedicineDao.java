@@ -1,11 +1,15 @@
 package com.app.booking.springboot.dao;
 
-import org.springframework.stereotype.Repository;
+import java.util.Date;
+import java.util.List;
 
 import com.app.booking.springboot.entity.Medicine;
 
-
 public interface MedicineDao {
-//		Medicine add(Medicine entity) throws Exception;
-	Medicine createMedicine(Medicine entity) throws Exception;
+
+	Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate, int outStockAlertQuantity,
+			float retailPrice, float costPrice, int status, String note, String storageUnit, String useUnit,
+			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception;
+
+	List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status) throws Exception;
 }

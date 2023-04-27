@@ -17,7 +17,7 @@ import com.app.booking.springboot.service.CategoryService;
 @RestController
 @RequestMapping("api/categories")
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class CategoryController {
+public class CategoryController extends BaseController {
 
 	@Autowired
 	private CategoryService categoryService;

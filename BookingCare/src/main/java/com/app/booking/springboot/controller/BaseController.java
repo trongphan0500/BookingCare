@@ -5,10 +5,12 @@ package com.app.booking.springboot.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import com.app.booking.springboot.entity.User;
+import com.app.booking.springboot.entity.UserClient;
 import com.app.booking.springboot.response.BaseResponse;
+import com.app.booking.springboot.service.UserService;
+import com.app.bookingcare.exceptions.TechresHttpException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class BaseController {
+
+	@Autowired
+	private UserService userService;
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public final ResponseEntity<BaseResponse> handleUserNotFoundException(MethodArgumentNotValidException ex,
@@ -49,28 +59,28 @@ public class BaseController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 	}
 
-//	public User handleTokenAccess(String encodeString) throws Exception {
-//
-//		byte[] decodedBytes = Base64.getMimeDecoder().decode(encodeString);
-//
-//		String decodedMime = new String(decodedBytes);
-//
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			UserClient map = mapper.readValue(decodedMime, UserClient.class);
-//			System.out.println(map.getUserId());
-//			User user = userService.findOne(map.getUserId());
-//			if (user.getIsLogin() == 0)
-//				throw new Exception("tài khoản chưa đăng nhập");
-//			if (user != null)
-//				return user;
-//			else
-//				throw new Exception("Thất bại");
-//		} catch (Exception e) {
-//			throw new Exception("Thất bại");
-//		}
-//
-//	}
+	public User handleTokenAccess(String encodeString) throws Exception {
+
+		byte[] decodedBytes = Base64.getMimeDecoder().decode(encodeString);
+
+		String decodedMime = new String(decodedBytes);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			UserClient map = mapper.readValue(decodedMime, UserClient.class);
+			System.out.println(map.getUserId());
+			User user = userService.findOne(map.getUserId());
+			if (user.getIsLogin() == 0)
+				throw new TechresHttpException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name());
+			if (user != null)
+				return user;
+			else
+				throw new Exception("Thất bại");
+		} catch (Exception e) {
+			throw new Exception("Thất bại");
+		}
+
+	}
 
 	public String formatDate(String inputDate) throws ParseException {
 		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
