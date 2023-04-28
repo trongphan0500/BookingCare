@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 
 @Service("medicineService")
+@Transactional
 public class MedicineServiceImpl implements MedicineService {
 
 	@Autowired
@@ -26,6 +30,27 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status) throws Exception {
 		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status);
+	}
+
+	@Override
+	public Medicine getMedicine(int medicineId) throws Exception {
+		return medicineDao.getMedicine(medicineId);
+	}
+
+	@Override
+	public List<MedicineInventoryModel> getMedicineInvetory(int categoryId, int medicineId) throws Exception {
+		return medicineDao.getMedicineInvetory(categoryId, medicineId);
+	}
+
+	@Override
+	public void updateMedicine(Medicine entity) throws Exception {
+		medicineDao.updateMedicine(entity);
+	}
+
+	@Override
+	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate)
+			throws Exception {
+		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate);
 	}
 
 }

@@ -15,7 +15,6 @@
 //import org.springframework.context.annotation.ComponentScan;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.context.annotation.Primary;
-//import org.springframework.core.env.Environment;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.orm.hibernate5.HibernateTransactionManager;
 //import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -28,17 +27,17 @@
 //import com.zaxxer.hikari.HikariDataSource;
 //
 //@Configuration
-//@ComponentScan({"com.app.booking.springboot"})
+//@ComponentScan({ "com.app.booking.springboot" })
 //@EnableTransactionManagement
-//@EnableJpaRepositories({"com.app.booking.springboot.dao"})
+//@EnableJpaRepositories({ "com.app.booking.springboot.dao" })
 //public class DatasourceConfig {
 //
 //	@Bean
 //	public DataSource dataSource() {
 //		HikariConfig hikariConfig = this.initHikariPoolingConfig("hikari-pool");
-//		
+//
 //		HikariDataSource hikariPoolingDataSource = new HikariDataSource(hikariConfig);
-//		
+//
 //		return hikariPoolingDataSource;
 //	}
 //
@@ -78,17 +77,19 @@
 //		txManager.setSessionFactory(s);
 //		return txManager;
 //	}
-//	
+//
 //	private HikariConfig initHikariPoolingConfig(String poolName) {
 //		HikariConfig hikariConfig = new HikariConfig();
-//		hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
-//		
-//		hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3306/employee");
+//		hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//
+//		hikariConfig.setJdbcUrl(
+//				"jdbc:mysql://localhost:3306/bookingcare?characterEncoding=UTF-8&useLegacyDatetimeCode=false&noAccessToProcedureBodies=true&serverTimezone=Asia/Bangkok");
+//
 //		hikariConfig.setUsername("root");
 //		hikariConfig.setPassword("0500mmm");
-//		
+//
 //		hikariConfig.setPoolName(poolName);
 //		return hikariConfig;
 //	}
-//	
+//
 //}

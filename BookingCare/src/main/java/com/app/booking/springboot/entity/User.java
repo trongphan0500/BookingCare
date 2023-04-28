@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -54,8 +56,9 @@ public class User {
 
 	private String position;
 
-	@OneToMany(mappedBy = "user")
-	private List<Role> roles;
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 
 	@Column(name = "created_at")
 	private Date createdAt;

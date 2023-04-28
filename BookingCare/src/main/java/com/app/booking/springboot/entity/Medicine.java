@@ -47,6 +47,9 @@ public class Medicine {
 	@Column(name = "cost_price")
 	private float costPrice;
 
+//	@Column(name = "inventory_quantity")
+//	private int inventoryQuantity;
+
 	private int status;
 
 	private String type;
@@ -103,6 +106,14 @@ public class Medicine {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+//	public int getInventoryQuantity() {
+//		return inventoryQuantity;
+//	}
+//
+//	public void setInventoryQuantity(int inventoryQuantity) {
+//		this.inventoryQuantity = inventoryQuantity;
+//	}
 
 	public String getAvatar() {
 		return avatar;
