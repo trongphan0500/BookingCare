@@ -1,5 +1,7 @@
 package com.app.booking.springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.request.CreateMedicineRequest;
 import com.app.booking.springboot.request.UpdateMedicineRequest;
 import com.app.booking.springboot.response.BaseResponse;
@@ -82,26 +83,40 @@ public class MedicineController extends BaseController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+//	@PostMapping(value = "/{id}/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<BaseResponse> updateMedicine(@PathVariable("id") int id,
+//			@RequestBody UpdateMedicineRequest wrapper) throws Exception {
+//		BaseResponse response = new BaseResponse();
+//
+//		Medicine medicine = medicineService.getMedicine(id);
+//
+////		medicine.ca(wrapper.getCategoryId());
+//		medicine.setName(wrapper.getName());
+//		medicine.setAvatar(wrapper.getAvatar());
+//		medicine.setExpiryDate(wrapper.getExpiryDate());
+//		medicine.setOutStockAlertQuantity(wrapper.getOutStockAlertQuantity());
+//		medicine.setRetailPrice(wrapper.getRetailPrice());
+//		medicine.setCostPrice(wrapper.getCostPrice());
+//		medicine.setStatus(wrapper.getStatus());
+//		medicine.setNote(wrapper.getNote());
+//		medicine.setStorageUnit(wrapper.getStorageUnit());
+//		medicine.setOutExpiryDateAlert(wrapper.getOutExpiryDateAlert());
+//
+//		medicineService.updateMedicine(medicine);
+//
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
+
 	@PostMapping(value = "/{id}/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> updateMedicine(@PathVariable("id") int id,
-			@RequestBody UpdateMedicineRequest wrapper) throws Exception {
+			@Valid @RequestBody UpdateMedicineRequest wrapper) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		Medicine medicine = medicineService.getMedicine(id);
-
-//		medicine.ca(wrapper.getCategoryId());
-		medicine.setName(wrapper.getName());
-		medicine.setAvatar(wrapper.getAvatar());
-		medicine.setExpiryDate(wrapper.getExpiryDate());
-		medicine.setOutStockAlertQuantity(wrapper.getOutStockAlertQuantity());
-		medicine.setRetailPrice(wrapper.getRetailPrice());
-		medicine.setCostPrice(wrapper.getCostPrice());
-		medicine.setStatus(wrapper.getStatus());
-		medicine.setNote(wrapper.getNote());
-		medicine.setStorageUnit(wrapper.getStorageUnit());
-		medicine.setOutExpiryDateAlert(wrapper.getOutExpiryDateAlert());
-
-		medicineService.updateMedicine(medicine);
+		medicineService.updateMedicine(wrapper.getCategoryId(), id, wrapper.getName(), wrapper.getAvatar(),
+				wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(), wrapper.getRetailPrice(),
+				wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(), wrapper.getStorageUnit(),
+				wrapper.getUseUnit(), wrapper.getMethodOfUse(), wrapper.getOriginalName(),
+				wrapper.getOutExpiryDateAlert());
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

@@ -24,7 +24,7 @@ public class UpdateMedicineRequest {
 	private Date expiryDate;
 
 	@JsonProperty("out_stock_alert_quantity")
-	@Min(1)
+	@Min(value = 1, message = "outStockAlertQuantity > 0")
 	@NotNull(message = "outStockAlertQuantity must not null")
 	private int outStockAlertQuantity;
 

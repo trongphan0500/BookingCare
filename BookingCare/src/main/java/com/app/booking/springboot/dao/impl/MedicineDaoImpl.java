@@ -128,7 +128,8 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 
 	@Override
 	public List<MedicineInventoryModel> getMedicineInvetory(int categoryId, int medicineId) throws Exception {
-		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_inventory", MedicineInventoryModel.class)
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_inventory", MedicineInventoryModel.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 
@@ -152,14 +153,64 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public void updateMedicine(Medicine entity) throws Exception {
-		this.getSession().update(entity);
+	public void updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
+			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
+			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_u_update_medicine", Medicine.class)
+				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("name", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("avatar", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("expiryDate", Date.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("outStockAlertQuantity", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("retailPrice", Float.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("costPrice", Float.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("status", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("note", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("storageUnit", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("useUnit", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("methodOfUse", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("originalName", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("outExpiryDateAlert", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("categoryId", categoryId);
+		query.setParameter("medicineId", medicineId);
+		query.setParameter("name", name);
+		query.setParameter("avatar", avatar);
+		query.setParameter("expiryDate", expiryDate);
+		query.setParameter("outStockAlertQuantity", outStockAlertQuantity);
+		query.setParameter("retailPrice", retailPrice);
+		query.setParameter("costPrice", costPrice);
+		query.setParameter("status", status);
+		query.setParameter("note", note);
+		query.setParameter("storageUnit", storageUnit);
+		query.setParameter("useUnit", useUnit);
+		query.setParameter("methodOfUse", methodOfUse);
+		query.setParameter("originalName", originalName);
+		query.setParameter("outExpiryDateAlert", outExpiryDateAlert);
+
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return;
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
 	}
 
 	@Override
 	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate)
 			throws Exception {
-		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModel.class)
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModel.class)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)

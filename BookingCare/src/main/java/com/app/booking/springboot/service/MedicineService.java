@@ -18,8 +18,10 @@ public interface MedicineService {
 	Medicine getMedicine(int medicineId) throws Exception;
 
 	List<MedicineInventoryModel> getMedicineInvetory(int categoryId, int medicineId) throws Exception;
-	
-	void updateMedicine(Medicine entity) throws Exception;
-	
+
+	void updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
+			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
+			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception;
+
 	List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate) throws Exception;
 }
