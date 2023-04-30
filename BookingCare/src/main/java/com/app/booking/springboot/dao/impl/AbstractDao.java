@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractDao<PK extends Serializable, T> {
 
 	private final Class<T> persistentClass;
+	
+	@Autowired	
+	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
 	public AbstractDao() {
@@ -20,11 +23,10 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 				.getActualTypeArguments()[1];
 	}
 
-	@Autowired	
-	private SessionFactory sessionFactory;
+	
 
 	protected Session getSession() {
-		return this.sessionFactory.openSession();
+		return this.sessionFactory.getCurrentSession();
 	}
 
 	protected CriteriaBuilder getBuilder() {
