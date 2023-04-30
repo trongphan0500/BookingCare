@@ -1,5 +1,7 @@
 package com.app.booking.springboot.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category createCategory(String name) throws Exception {
 		return categoryDao.createCategory(name);
+	}
+
+	@Override
+	public List<Category> findAll() throws Exception {
+		return categoryDao.findAll();
 	}
 
 }

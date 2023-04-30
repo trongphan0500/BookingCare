@@ -1,5 +1,7 @@
 package com.app.booking.springboot.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
@@ -44,6 +46,25 @@ public class CategoryDaoImpl extends AbstractDao<Integer, Category> implements C
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
 			return (Category) query.getResultList().stream().findFirst().orElse(null);
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public List<Category> findAll() throws Exception {
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_categories", Category.class)
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return query.getResultList();
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:

@@ -2,34 +2,43 @@ package com.app.booking.springboot.request;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreateMedicineRequest {
-	
-	
+
 	@JsonProperty("category_id")
+	@NotNull(message = "Danh mục bắt buộc điền")
 	private int categoryId;
 
 	@NotEmpty(message = "Vui lòng nhập tên")
 	private String name;
 
-	@NotNull(message = "avatar không được null")
-	private String avatar;
+//	@NotNull(message = "avatar không được null")
+
+	private String avatar = "";
 
 	@JsonProperty("expiry_date")
-	
+	@NotNull(message = "Ngày hết hạn bắt buộc")
 	private Date expiryDate;
 
 	@JsonProperty("out_stock_alert_quantity")
+	@Min(value = 1, message = "outStockAlertQuantity > 0")
+	@NotNull(message = "outStockAlertQuantity must not null")
+
 	private int outStockAlertQuantity;
 
 	@JsonProperty("retail_price")
+	@Min(value = 0, message = "retail_price phải lớn hơn 0 ")
+	@NotNull(message = "retail_price must not null")
 	private float retailPrice;
 
 	@JsonProperty("cost_price")
+	@Min(value = 0, message = "cost_price phải lớn hơn 0 ")
+	@NotNull(message = "cost_price must not null")
 	private float costPrice;
 
 	private int status;
@@ -39,16 +48,16 @@ public class CreateMedicineRequest {
 	@JsonProperty("storage_unit")
 	private String storageUnit;
 
-	@JsonProperty("use_unit")
-	private String useUnit;
-
 	@JsonProperty("method_of_use")
+	@NotNull(message = "method_of_use must not null")
 	private String methodOfUse;
 
 	@JsonProperty("original_name")
+	@NotNull(message = "original_name must not null")
 	private String originalName;
 
 	@JsonProperty("out_expiry_date_alert")
+	@NotNull(message = "out_expiry_date_alert bắt buộc")
 	private int outExpiryDateAlert;
 
 	public int getCategoryId() {
@@ -129,14 +138,6 @@ public class CreateMedicineRequest {
 
 	public void setStorageUnit(String storageUnit) {
 		this.storageUnit = storageUnit;
-	}
-
-	public String getUseUnit() {
-		return useUnit;
-	}
-
-	public void setUseUnit(String useUnit) {
-		this.useUnit = useUnit;
 	}
 
 	public String getMethodOfUse() {

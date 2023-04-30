@@ -34,6 +34,9 @@ public class MedicineResponse {
 	@JsonProperty("cost_price")
 	private float costPrice;
 
+	@JsonProperty("inventory_quantity")
+	private int inventoryQuantity;
+
 	private int status;
 
 	private String type;
@@ -76,6 +79,7 @@ public class MedicineResponse {
 		this.retailPrice = entity.getRetailPrice();
 		this.costPrice = entity.getCostPrice();
 		this.status = entity.getStatus();
+		this.inventoryQuantity = entity.getInventoryQuantity();
 		this.type = entity.getType();
 		this.note = entity.getNote();
 		this.storageUnit = entity.getStorageUnit();
@@ -97,6 +101,14 @@ public class MedicineResponse {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
+
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
 	}
 
 	public String getName() {

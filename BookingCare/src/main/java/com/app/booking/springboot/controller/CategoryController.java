@@ -33,7 +33,7 @@ public class CategoryController extends BaseController {
 	@GetMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> test() throws Exception {
 		BaseResponse response = new BaseResponse<>();
-		response.setData(new CategoryResponse(categoryService.findOne(7)));
+		response.setData(new CategoryResponse().mapToList(categoryService.findAll()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

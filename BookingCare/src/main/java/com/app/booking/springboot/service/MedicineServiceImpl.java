@@ -22,14 +22,15 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate,
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
 		return medicineDao.createMedicine(categoryId, name, avatar, expiryDate, outStockAlertQuantity, retailPrice,
-				costPrice, status, note, storageUnit, useUnit, methodOfUse, originalName, outExpiryDateAlert);
+				costPrice, status, note, storageUnit, methodOfUse, originalName, outExpiryDateAlert);
 	}
 
 	@Override
-	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status) throws Exception {
-		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status);
+	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status, int sortBy)
+			throws Exception {
+		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status, sortBy);
 	}
 
 	@Override
@@ -54,6 +55,12 @@ public class MedicineServiceImpl implements MedicineService {
 	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate)
 			throws Exception {
 		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate);
+	}
+
+	@Override
+	public List<Medicine> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch, String fromDate,
+			String toDate) throws Exception {
+		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate);
 	}
 
 }

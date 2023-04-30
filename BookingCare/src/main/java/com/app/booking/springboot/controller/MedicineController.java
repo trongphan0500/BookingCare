@@ -42,11 +42,12 @@ public class MedicineController extends BaseController {
 			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
 			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId,
 			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
-			@RequestParam(name = "status", required = false, defaultValue = "1") int status) throws Exception {
+			@RequestParam(name = "status", required = false, defaultValue = "1") int status,
+			@RequestParam(name = "sort_by", required = false, defaultValue = "1") int sortBy) throws Exception {
 		BaseResponse response = new BaseResponse();
 
 		response.setData(new MedicineResponse()
-				.mapToList(medicineService.getMedicines(categoryId, medicineId, keySearch, status)));
+				.mapToList(medicineService.getMedicines(categoryId, medicineId, keySearch, status,sortBy)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -59,14 +60,15 @@ public class MedicineController extends BaseController {
 	}
 
 	@PostMapping(value = "/create", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BaseResponse> spAddMedicine(@RequestBody CreateMedicineRequest wrapper) throws Exception {
+	public ResponseEntity<BaseResponse> spAddMedicine(@Valid @RequestBody CreateMedicineRequest wrapper)
+			throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(new MedicineResponse(medicineService.createMedicine(wrapper.getCategoryId(), wrapper.getName(),
-				wrapper.getAvatar(), wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(),
-				wrapper.getRetailPrice(), wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(),
-				wrapper.getStorageUnit(), wrapper.getUseUnit(), wrapper.getMethodOfUse(), wrapper.getOriginalName(),
-				wrapper.getOutExpiryDateAlert())));
+		response.setData(new MedicineResponse(
+				medicineService.createMedicine(wrapper.getCategoryId(), wrapper.getName(), wrapper.getAvatar(),
+						wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(), wrapper.getRetailPrice(),
+						wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(), wrapper.getStorageUnit(),
+						wrapper.getMethodOfUse(), wrapper.getOriginalName(), wrapper.getOutExpiryDateAlert())));
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -131,6 +133,22 @@ public class MedicineController extends BaseController {
 
 		response.setData(new MedicineHistoryResponse().mapToList(medicineService.getMedicineHistory(id,
 				Utils.convertStringFood(fromDate), Utils.convertStringFood(toDate))));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/warning", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse> getWarningMedicine(
+			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
+			@RequestParam(name = "is_expriy_date_alert", required = false, defaultValue = "0") int isExpriyDateAlert,
+			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
+			@RequestParam(name = "from_date", required = false, defaultValue = "") int fromDate,
+			@RequestParam(name = "to_date", required = false, defaultValue = "") int toDate
+
+	) throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		response.setData(new MedicineResponse().mapToList(
+				medicineService.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, keySearch, keySearch)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
