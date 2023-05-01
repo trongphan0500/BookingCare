@@ -54,11 +54,14 @@ public class CategoryDaoImpl extends AbstractDao<Integer, Category> implements C
 	}
 
 	@Override
-	public List<Category> findAll() throws Exception {
+	public List<Category> findAll(int categoryId) throws Exception {
 		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_categories", Category.class)
+				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
 
+		query.setParameter("categoryId", categoryId);
+		
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();
 

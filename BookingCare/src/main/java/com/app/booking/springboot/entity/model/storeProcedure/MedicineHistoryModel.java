@@ -20,6 +20,8 @@ public class MedicineHistoryModel {
 
 	private String name;
 
+	private String description;
+
 	public String getCreatedAt() {
 		return createdAt;
 	}
@@ -58,6 +60,14 @@ public class MedicineHistoryModel {
 
 	public void setWarehouseSessionStatus(int warehouseSessionStatus) {
 		this.warehouseSessionStatus = warehouseSessionStatus;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

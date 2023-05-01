@@ -27,8 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findAll() throws Exception {
-		return categoryDao.findAll();
+	public List<Category> findAll(int categoryId) throws Exception {
+		return categoryDao.findAll(categoryId);
 	}
 
 }

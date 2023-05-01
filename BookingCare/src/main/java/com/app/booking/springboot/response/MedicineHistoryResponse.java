@@ -20,6 +20,8 @@ public class MedicineHistoryResponse {
 
 	private String name;
 
+	private String description;
+
 	public MedicineHistoryResponse() {
 	}
 
@@ -29,6 +31,7 @@ public class MedicineHistoryResponse {
 		this.warehouseSessionStatus = entity.getWarehouseSessionStatus() == 1 ? "Xuất kho" : "Nhập kho";
 		this.id = entity.getId();
 		this.name = entity.getName();
+		this.description = entity.getDescription();
 	}
 
 	public List<MedicineHistoryResponse> mapToList(List<MedicineHistoryModel> entiies) {
@@ -73,6 +76,14 @@ public class MedicineHistoryResponse {
 
 	public void setWarehouseSessionStatus(String warehouseSessionStatus) {
 		this.warehouseSessionStatus = warehouseSessionStatus;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

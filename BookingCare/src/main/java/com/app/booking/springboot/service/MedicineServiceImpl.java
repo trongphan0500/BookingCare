@@ -11,6 +11,7 @@ import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 
 @Service("medicineService")
 @Transactional
@@ -52,15 +53,15 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate)
-			throws Exception {
-		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate);
+	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate,
+			String keySearch, int status) throws Exception {
+		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate, keySearch, status);
 	}
 
 	@Override
-	public List<Medicine> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch, String fromDate,
-			String toDate) throws Exception {
-		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate);
+	public List<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch,
+			String fromDate, String toDate, int sortBy) throws Exception {
+		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sortBy);
 	}
 
 }

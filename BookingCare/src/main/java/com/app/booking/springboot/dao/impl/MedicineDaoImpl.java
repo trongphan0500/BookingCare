@@ -14,6 +14,7 @@ import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.bookingcare.enums.StoreProcedureStatusCodeEnum;
 import com.app.bookingcare.exceptions.TechresHttpException;
 
@@ -24,7 +25,7 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	@Override
 	public Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate,
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			 String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
 
 		StoredProcedureQuery query = this.getSession()
 				.createStoredProcedureQuery("sp_u_create_medicine", Medicine.class)
@@ -73,7 +74,8 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status, int sortBy) throws Exception {
+	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status, int sortBy)
+			throws Exception {
 		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_medicines", Medicine.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
@@ -207,13 +209,15 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate)
-			throws Exception {
+	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate,
+			String keySearch, int status) throws Exception {
 		StoredProcedureQuery query = this.getSession()
 				.createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModel.class)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("status", Integer.class, ParameterMode.IN)
 
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
@@ -221,6 +225,8 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("medicineId", medicineId);
 		query.setParameter("fromDate", fromDate);
 		query.setParameter("toDate", toDate);
+		query.setParameter("keySearch", keySearch);
+		query.setParameter("status", status);
 
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();
@@ -236,15 +242,16 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<Medicine> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch, String fromDate,
-			String toDate) throws Exception {
+	public List<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch,
+			String fromDate, String toDate, int sortBy) throws Exception {
 		StoredProcedureQuery query = this.getSession()
-				.createStoredProcedureQuery("sp_g_warning_medicines", Medicine.class)
+				.createStoredProcedureQuery("sp_g_warning_medicines", MedicineWaningModel.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("isExpriyDateAlert", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
 
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
@@ -254,6 +261,7 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("keySearch", keySearch);
 		query.setParameter("fromDate", fromDate);
 		query.setParameter("toDate", toDate);
+		query.setParameter("sortBy", sortBy);
 
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();

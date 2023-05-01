@@ -21,6 +21,7 @@ import com.app.booking.springboot.response.BaseResponse;
 import com.app.booking.springboot.response.MedicineHistoryResponse;
 import com.app.booking.springboot.response.MedicineInventoryResponse;
 import com.app.booking.springboot.response.MedicineResponse;
+import com.app.booking.springboot.response.MedicineWarningResponse;
 import com.app.booking.springboot.service.CategoryService;
 import com.app.booking.springboot.service.MedicineService;
 import com.app.bookingcare.exceptions.Utils;
@@ -42,12 +43,12 @@ public class MedicineController extends BaseController {
 			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
 			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId,
 			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
-			@RequestParam(name = "status", required = false, defaultValue = "1") int status,
-			@RequestParam(name = "sort_by", required = false, defaultValue = "1") int sortBy) throws Exception {
+			@RequestParam(name = "status", required = false, defaultValue = "-1") int status,
+			@RequestParam(name = "sort_by", required = false, defaultValue = "0") int sortBy) throws Exception {
 		BaseResponse response = new BaseResponse();
 
 		response.setData(new MedicineResponse()
-				.mapToList(medicineService.getMedicines(categoryId, medicineId, keySearch, status,sortBy)));
+				.mapToList(medicineService.getMedicines(categoryId, medicineId, keySearch, status, sortBy)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -123,32 +124,36 @@ public class MedicineController extends BaseController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/{id}/history", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BaseResponse> getMedicineHistory(@PathVariable(name = "id") int id,
+	@GetMapping(value = "/history", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse> getMedicineHistory(
+			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId,
 			@RequestParam(name = "from_date", required = false, defaultValue = "") String fromDate,
-			@RequestParam(name = "to_date", required = false, defaultValue = "") String toDate
+			@RequestParam(name = "to_date", required = false, defaultValue = "") String toDate,
+			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
+			@RequestParam(name = "status", required = false, defaultValue = "1") int status
 
 	) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(new MedicineHistoryResponse().mapToList(medicineService.getMedicineHistory(id,
-				Utils.convertStringFood(fromDate), Utils.convertStringFood(toDate))));
+		response.setData(new MedicineHistoryResponse().mapToList(medicineService.getMedicineHistory(medicineId,
+				Utils.convertStringFood(fromDate), Utils.convertStringFood(toDate), keySearch, status)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/warning", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> getWarningMedicine(
 			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
-			@RequestParam(name = "is_expriy_date_alert", required = false, defaultValue = "0") int isExpriyDateAlert,
+			@RequestParam(name = "is_expiry_date_alert", required = false, defaultValue = "0") int isExpriyDateAlert,
 			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
-			@RequestParam(name = "from_date", required = false, defaultValue = "") int fromDate,
-			@RequestParam(name = "to_date", required = false, defaultValue = "") int toDate
+			@RequestParam(name = "from_date", required = false, defaultValue = "") String fromDate,
+			@RequestParam(name = "to_date", required = false, defaultValue = "") String toDate,
+			@RequestParam(name = "sort_by", required = false, defaultValue = "0") int sorBy
 
 	) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(new MedicineResponse().mapToList(
-				medicineService.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, keySearch, keySearch)));
+		response.setData(new MedicineWarningResponse().mapToList(
+				medicineService.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sorBy)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

@@ -10,5 +10,5 @@ public interface CategoryService {
 	
 	Category createCategory(String name) throws Exception;
 	
-	List<Category> findAll() throws Exception;
+	List<Category> findAll(int categoryId) throws Exception;
 }
