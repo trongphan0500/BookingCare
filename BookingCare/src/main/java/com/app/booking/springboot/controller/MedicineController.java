@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.booking.springboot.request.CreateMedicineRequest;
+import com.app.booking.springboot.request.CreateWarehouseSessionRequest;
 import com.app.booking.springboot.request.UpdateMedicineRequest;
 import com.app.booking.springboot.response.BaseResponse;
 import com.app.booking.springboot.response.MedicineHistoryResponse;
@@ -24,7 +25,9 @@ import com.app.booking.springboot.response.MedicineResponse;
 import com.app.booking.springboot.response.MedicineWarningResponse;
 import com.app.booking.springboot.service.CategoryService;
 import com.app.booking.springboot.service.MedicineService;
+import com.app.booking.springboot.service.WarehouseSessionService;
 import com.app.bookingcare.exceptions.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("api/medicines")
@@ -37,6 +40,9 @@ public class MedicineController extends BaseController {
 
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private WarehouseSessionService warehouseSessionService;
 
 	@GetMapping(value = "/", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> getMedicines(
@@ -154,6 +160,20 @@ public class MedicineController extends BaseController {
 
 		response.setData(new MedicineWarningResponse().mapToList(
 				medicineService.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sorBy)));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/create-warehouse", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse> createWarehouseSession(@Valid @RequestBody CreateWarehouseSessionRequest wrapper
+
+	) throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		String json = new ObjectMapper().writeValueAsString(wrapper.getWarehouseSessionRequests());
+
+		warehouseSessionService.createWarehouseSession(wrapper.getEmployeeId(), wrapper.getDiscountPercent(),
+				wrapper.getType(), wrapper.getDiscountAmount(), wrapper.getDescription(), json);
+
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
