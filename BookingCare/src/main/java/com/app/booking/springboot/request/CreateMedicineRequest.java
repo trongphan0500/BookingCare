@@ -12,6 +12,7 @@ public class CreateMedicineRequest {
 
 	@JsonProperty("category_id")
 	@NotNull(message = "Danh mục bắt buộc điền")
+	@Min(value = 1, message = "category_id > 0")
 	private int categoryId;
 
 	@NotEmpty(message = "Vui lòng nhập tên")
@@ -22,8 +23,7 @@ public class CreateMedicineRequest {
 	private String avatar = "";
 
 	@JsonProperty("expiry_date")
-	@NotNull(message = "Ngày hết hạn bắt buộc")
-	private Date expiryDate;
+	private Date expiryDate ;
 
 	@JsonProperty("out_stock_alert_quantity")
 	@Min(value = 1, message = "outStockAlertQuantity > 0")

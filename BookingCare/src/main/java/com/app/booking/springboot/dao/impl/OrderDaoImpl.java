@@ -1,7 +1,5 @@
 package com.app.booking.springboot.dao.impl;
 
-import java.math.BigDecimal;
-
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
@@ -9,20 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.booking.springboot.dao.WarehouseSessionDao;
-import com.app.booking.springboot.entity.WarehouseSession;
+import com.app.booking.springboot.dao.OrderDao;
+import com.app.booking.springboot.entity.Order;
 import com.app.bookingcare.enums.StoreProcedureStatusCodeEnum;
 import com.app.bookingcare.exceptions.TechresHttpException;
 
-@Repository("warehouseSessionDao")
+@Repository("orderDao")
 @Transactional
 @SuppressWarnings("unchecked")
-public class WarehouseSessionDaoImpl extends AbstractDao<Integer, WarehouseSession> implements WarehouseSessionDao {
+public class OrderDaoImpl extends AbstractDao<Integer, Order> implements OrderDao {
 
 	@Override
-	public void createWarehouseSession(int employeeId, int discountPercent, int type, float discountAmount,
+	public void createMedicneOrder(int employeeId, int discountPercent, int type, float discountAmount,
 			String description, String warehouseDeitalJson) throws Exception {
-		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_u_create_warehouse_session")
+
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_u_create_medecine_order")
 				.registerStoredProcedureParameter("employeeId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("discountPercent", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("type", Integer.class, ParameterMode.IN)
@@ -46,6 +45,33 @@ public class WarehouseSessionDaoImpl extends AbstractDao<Integer, WarehouseSessi
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
 			return;
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public int checkQuantityMedicine(int medicineId, int quatity) throws Exception {
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_check_medicine_quantity")
+				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("quatity", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+		query.setParameter("medicineId", medicineId);
+		query.setParameter("quatity", quatity);
+
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		int result = (int) query.getOutputParameterValue("result");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return result;
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:
