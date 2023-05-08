@@ -16,6 +16,8 @@ import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryMod
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.bookingcare.enums.StoreProcedureStatusCodeEnum;
+import com.app.bookingcare.exceptions.Pagination;
+import com.app.bookingcare.exceptions.StoreProcedureListResult;
 import com.app.bookingcare.exceptions.TechresHttpException;
 
 @Repository("medicineDao")
@@ -74,15 +76,18 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status, int sortBy)
-			throws Exception {
+	public StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
+			int sortBy, Pagination pagination) throws Exception {
 		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_medicines", Medicine.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("status", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
 
+				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
 
@@ -91,13 +96,16 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("keySearch", keySearch);
 		query.setParameter("status", status);
 		query.setParameter("sortBy", sortBy);
+		query.setParameter("limit", pagination.getLimit());
+		query.setParameter("offset", pagination.getOffset());
 
+		int totalRecord = (int) query.getOutputParameterValue("total_record");
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();
 
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
-			return query.getResultList();
+			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:
@@ -242,8 +250,8 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch,
-			String fromDate, String toDate, int sortBy) throws Exception {
+	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
+			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
 		StoredProcedureQuery query = this.getSession()
 				.createStoredProcedureQuery("sp_g_warning_medicines", MedicineWaningModel.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
@@ -252,7 +260,10 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
 
+				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
 
@@ -262,13 +273,16 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("fromDate", fromDate);
 		query.setParameter("toDate", toDate);
 		query.setParameter("sortBy", sortBy);
+		query.setParameter("limit", pagination.getLimit());
+		query.setParameter("offset", pagination.getOffset());
 
+		int totalRecord = (int) query.getOutputParameterValue("total_record");
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();
 
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
-			return query.getResultList();
+			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:

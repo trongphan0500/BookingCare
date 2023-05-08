@@ -14,4 +14,8 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	public User findOne(int id) throws Exception {
 		return (User) this.getSession().createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
 	}
+
+	public void update(User entity) {
+		getSession().update(entity);
+	}
 }

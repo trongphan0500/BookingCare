@@ -1,6 +1,6 @@
 package com.app.booking.springboot.service;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class WarehouseSessionServiceImpl implements WarehouseSessionService {
 
 	@Override
 	public void createWarehouseSession(int employeeId, int discountPercent, int type, float discountAmount,
-			String description, String warehouseDeitalJson) throws Exception {
-		warehouseDao.createWarehouseSession(employeeId, discountPercent, type, discountAmount, description,
-				warehouseDeitalJson);
+			Date manufactureDate, Date expiryDate, String description, String warehouseDeitalJson) throws Exception {
+		warehouseDao.createWarehouseSession(employeeId, discountPercent, type, discountAmount, manufactureDate,
+				expiryDate, description, warehouseDeitalJson);
 	}
 
 }

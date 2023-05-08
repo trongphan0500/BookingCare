@@ -1,5 +1,7 @@
 package com.app.booking.springboot.service;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +24,10 @@ public class OrderServiceImpl implements OrderService {
 			String description, String warehouseDeitalJson) throws Exception {
 		orderDao.createMedicneOrder(employeeId, discountPercent, type, discountAmount, description,
 				warehouseDeitalJson);
-		warehouseDao.createWarehouseSession(employeeId, discountPercent, type, discountAmount, description,
-				warehouseDeitalJson);
+		warehouseDao.createWarehouseSession(employeeId, discountPercent, type, discountAmount,
+				Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), description, warehouseDeitalJson);
 	}
-
+	
 	@Override
 	public int checkQuantityMedicine(int medicineId, int quatity) throws Exception {
 		return orderDao.checkQuantityMedicine(medicineId, quatity);

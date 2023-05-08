@@ -12,6 +12,8 @@ import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
+import com.app.bookingcare.exceptions.Pagination;
+import com.app.bookingcare.exceptions.StoreProcedureListResult;
 
 @Service("medicineService")
 @Transactional
@@ -29,9 +31,9 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public List<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status, int sortBy)
-			throws Exception {
-		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status, sortBy);
+	public StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
+			int sortBy, Pagination pagination) throws Exception {
+		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status, sortBy, pagination);
 	}
 
 	@Override
@@ -59,9 +61,10 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public List<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert, String keySearch,
-			String fromDate, String toDate, int sortBy) throws Exception {
-		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sortBy);
+	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
+			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
+		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sortBy,
+				pagination);
 	}
 
 }

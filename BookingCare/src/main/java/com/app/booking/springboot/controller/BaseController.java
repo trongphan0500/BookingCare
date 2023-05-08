@@ -69,6 +69,7 @@ public class BaseController {
 		try {
 			UserClient map = mapper.readValue(decodedMime, UserClient.class);
 			System.out.println(map.getUserId());
+//			UserResponse user = new UserResponse(userService.findOne(map.getUserId()));
 			User user = userService.findOne(map.getUserId());
 			if (user.getIsLogin() == 0)
 				throw new TechresHttpException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name());

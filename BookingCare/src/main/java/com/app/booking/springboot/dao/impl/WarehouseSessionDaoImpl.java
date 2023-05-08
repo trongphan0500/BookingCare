@@ -1,6 +1,6 @@
 package com.app.booking.springboot.dao.impl;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -21,12 +21,14 @@ public class WarehouseSessionDaoImpl extends AbstractDao<Integer, WarehouseSessi
 
 	@Override
 	public void createWarehouseSession(int employeeId, int discountPercent, int type, float discountAmount,
-			String description, String warehouseDeitalJson) throws Exception {
+			Date manufactureDate, Date expiryDate, String description, String warehouseDeitalJson) throws Exception {
 		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_u_create_warehouse_session")
 				.registerStoredProcedureParameter("employeeId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("discountPercent", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("type", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("discountAmount", float.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("manufactureDate", Date.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("expiryDate", Date.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("_description", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("warehouseDeitalJson", String.class, ParameterMode.IN)
 
@@ -37,6 +39,8 @@ public class WarehouseSessionDaoImpl extends AbstractDao<Integer, WarehouseSessi
 		query.setParameter("discountPercent", discountPercent);
 		query.setParameter("type", type);
 		query.setParameter("discountAmount", discountAmount);
+		query.setParameter("manufactureDate", manufactureDate);
+		query.setParameter("expiryDate", expiryDate);
 		query.setParameter("_description", description);
 		query.setParameter("warehouseDeitalJson", warehouseDeitalJson);
 
