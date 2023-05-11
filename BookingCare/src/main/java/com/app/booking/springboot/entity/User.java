@@ -1,7 +1,6 @@
 package com.app.booking.springboot.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +30,11 @@ public class User {
 
 	private String phone;
 
-	private String avatar;
+//	private String avatar;
+
+	@Lob
+	@Column(name = "avatar", columnDefinition = "BLOB")
+	private byte[] avatar;
 
 	private int gender;
 
@@ -56,9 +57,11 @@ public class User {
 
 	private String position;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+//	@ManyToOne
+//	@JoinColumn(name = "role_id")
+//	private Role role;
+	@Column(name = "role_id")
+	private int roleId;
 
 	@Column(name = "created_at")
 	private Date createdAt;
@@ -76,6 +79,14 @@ public class User {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 	public void setName(String name) {
@@ -114,11 +125,11 @@ public class User {
 		this.phone = phone;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

@@ -14,6 +14,7 @@ import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.bookingcare.enums.StoreProcedureStatusCodeEnum;
 import com.app.bookingcare.exceptions.Pagination;
@@ -273,6 +274,47 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("fromDate", fromDate);
 		query.setParameter("toDate", toDate);
 		query.setParameter("sortBy", sortBy);
+		query.setParameter("limit", pagination.getLimit());
+		query.setParameter("offset", pagination.getOffset());
+
+		int totalRecord = (int) query.getOutputParameterValue("total_record");
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId,
+			int isExpiry, String keySearch, int status, int sortBy, Pagination pagination) throws Exception {
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_medicines_test", MedicineInventoryNew.class)
+				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("status", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("isExpiry", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("categoryId", categoryId);
+		query.setParameter("medicineId", medicineId);
+		query.setParameter("keySearch", keySearch);
+		query.setParameter("status", status);
+		query.setParameter("sortBy", sortBy);
+		query.setParameter("isExpiry", isExpiry);
 		query.setParameter("limit", pagination.getLimit());
 		query.setParameter("offset", pagination.getOffset());
 

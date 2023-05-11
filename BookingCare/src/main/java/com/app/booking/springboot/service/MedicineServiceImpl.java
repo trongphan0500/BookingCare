@@ -11,6 +11,7 @@ import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.bookingcare.exceptions.Pagination;
 import com.app.bookingcare.exceptions.StoreProcedureListResult;
@@ -64,6 +65,13 @@ public class MedicineServiceImpl implements MedicineService {
 	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
 			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
 		return medicineDao.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sortBy,
+				pagination);
+	}
+
+	@Override
+	public StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId,
+			int isExpiry, String keySearch, int status, int sortBy, Pagination pagination) throws Exception {
+		return medicineDao.getInventoryMedicines(categoryId, medicineId, isExpiry, keySearch, status, sortBy,
 				pagination);
 	}
 

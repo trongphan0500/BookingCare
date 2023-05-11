@@ -2,12 +2,14 @@ package com.app.booking.springboot.entity;
 
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "employees")
+@DiscriminatorValue("EMPLOYEE")
 public class Employee extends User {
 
 	private String department;

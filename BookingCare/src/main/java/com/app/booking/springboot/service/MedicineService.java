@@ -6,6 +6,7 @@ import java.util.List;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.bookingcare.exceptions.Pagination;
 import com.app.bookingcare.exceptions.StoreProcedureListResult;
@@ -32,4 +33,7 @@ public interface MedicineService {
 
 	StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
 			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception;
+	
+	StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId,
+			int isExpiry, String keySearch, int status, int sortBy, Pagination pagination) throws Exception;
 }

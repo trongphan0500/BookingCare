@@ -25,6 +25,7 @@ public class ExamRoom {
 	
 	private String name;
 	
+	@Column(name = "max_patient")
 	private int maxPatient;
 	
 	private String desciption;

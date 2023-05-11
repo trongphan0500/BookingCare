@@ -19,7 +19,7 @@ public class UserResponse {
 
 	private String phone;
 
-	private String avatar;
+//	private String avatar;
 
 	private int gender;
 
@@ -57,7 +57,7 @@ public class UserResponse {
 		this.email = entity.getEmail();
 		this.address = entity.getAddress();
 		this.phone = entity.getPhone();
-		this.avatar = entity.getAvatar();
+//		this.avatar = entity.getAvatar();
 		this.gender = entity.getGender();
 		this.description = entity.getDescription();
 		this.isActive = entity.getIsActive();
@@ -112,13 +112,13 @@ public class UserResponse {
 		this.phone = phone;
 	}
 
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
+//	public String getAvatar() {
+//		return avatar;
+//	}
+//
+//	public void setAvatar(String avatar) {
+//		this.avatar = avatar;
+//	}
 
 	public int getGender() {
 		return gender;

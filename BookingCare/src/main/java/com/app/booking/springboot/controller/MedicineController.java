@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.User;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.booking.springboot.request.CreateMedicineRequest;
 import com.app.booking.springboot.request.CreateWarehouseSessionRequest;
@@ -25,7 +26,7 @@ import com.app.booking.springboot.request.UpdateMedicineRequest;
 import com.app.booking.springboot.response.BaseListDataResponse;
 import com.app.booking.springboot.response.BaseResponse;
 import com.app.booking.springboot.response.MedicineHistoryResponse;
-import com.app.booking.springboot.response.MedicineInventoryResponse;
+import com.app.booking.springboot.response.MedicineInventoryResponseNew;
 import com.app.booking.springboot.response.MedicineResponse;
 import com.app.booking.springboot.response.MedicineWarningResponse;
 import com.app.booking.springboot.service.CategoryService;
@@ -98,17 +99,44 @@ public class MedicineController extends BaseController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/inventory", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BaseResponse> getMedicineInventory(
+	@GetMapping(value = "/inventory/medicines", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse<BaseListDataResponse<MedicineInventoryResponseNew>>> getMedicineInventory(
 			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
-			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId)
-			throws Exception {
+			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId,
+			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
+			@RequestParam(name = "status", required = false, defaultValue = "-1") int status,
+			@RequestParam(name = "sort_by", required = false, defaultValue = "0") int sortBy,
+			@RequestParam(name = "is_expiry", required = false, defaultValue = "0") int isExpiry,
+			@RequestParam(name = "limit", required = true, defaultValue = "-1") int limit,
+			@RequestParam(name = "page", required = true, defaultValue = "-1") int page) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(
-				new MedicineInventoryResponse().mapToList(medicineService.getMedicineInvetory(categoryId, medicineId)));
+		Pagination pagination = new Pagination(page, limit);
+
+		StoreProcedureListResult<MedicineInventoryNew> medicines = medicineService.getInventoryMedicines(categoryId,
+				medicineId, isExpiry, keySearch, status, sortBy, pagination);
+		BaseListDataResponse<MedicineInventoryResponseNew> listData = new BaseListDataResponse<>();
+		listData.setList(new MedicineInventoryResponseNew().mapToList(medicines.getResult()));
+
+		listData.setLimit(pagination.getLimit());
+		listData.setTotalRecord(medicines.getTotalRecord());
+
+		response.setData(listData);
+
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
+//	@GetMapping(value = "/inventory", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<BaseResponse> getMedicineInventory(
+//			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
+//			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId)
+//			throws Exception {
+//		BaseResponse response = new BaseResponse();
+//
+//		response.setData(
+//				new MedicineInventoryResponse().mapToList(medicineService.getMedicineInvetory(categoryId, medicineId)));
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
 
 //	@PostMapping(value = "/{id}/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 //	public ResponseEntity<BaseResponse> updateMedicine(@PathVariable("id") int id,
