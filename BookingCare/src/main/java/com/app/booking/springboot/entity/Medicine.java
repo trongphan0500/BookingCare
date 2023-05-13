@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +26,11 @@ public class Medicine {
 
 	private String name;
 
-	private String avatar;
+//	private String avatar;
+
+	@Lob
+	@Column(name = "avatar", columnDefinition = "LONGBLOB")
+	private byte[] avatar;
 
 	private String code;
 
@@ -115,11 +120,11 @@ public class Medicine {
 		this.inventoryQuantity = inventoryQuantity;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

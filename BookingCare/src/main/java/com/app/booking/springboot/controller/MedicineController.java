@@ -208,8 +208,6 @@ public class MedicineController extends BaseController {
 
 		Pagination pagination = new Pagination(page, limit);
 
-//		response.setData(new MedicineWarningResponse().mapToList(
-//				medicineService.getWarningMedicine(categoryId, isExpriyDateAlert, keySearch, fromDate, toDate, sorBy)));
 		StoreProcedureListResult<MedicineWaningModel> medicines = medicineService.getWarningMedicine(categoryId,
 				isExpriyDateAlert, keySearch, fromDate, toDate, sorBy, pagination);
 		BaseListDataResponse<MedicineWarningResponse> listData = new BaseListDataResponse<>();

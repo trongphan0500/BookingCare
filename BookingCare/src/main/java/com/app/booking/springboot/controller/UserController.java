@@ -1,6 +1,5 @@
 package com.app.booking.springboot.controller;
 
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,20 +78,22 @@ public class UserController extends BaseController {
 
 		Role role = userService.getRole(wrapper.getRoleId());
 
+		System.out.println(wrapper.getDescription());
+
 		if (role == null) {
 			response.setStatus(HttpStatus.BAD_REQUEST);
 			response.setMessageError("Không tìm thấy role tương ứng");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
-		byte[] avatarData = null;
-		try {
-			avatarData = wrapper.getAvatar().getBytes();
-//			String avatarName = StringUtils.cleanPath(wrapper.getAvatar().getOriginalFilename());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+//		byte[] avatarData = null;
+//		try {
+//			avatarData = wrapper.getAvatar().getBytes();
+////			String avatarName = StringUtils.cleanPath(wrapper.getAvatar().getOriginalFilename());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
 
 		if (wrapper.getRoleId() == 1) {
 			Doctor doctor = new Doctor();
@@ -105,7 +105,8 @@ public class UserController extends BaseController {
 			doctor.setGender(wrapper.getGender());
 			doctor.setRoleId(role.getId());
 			doctor.setPosition(wrapper.getPosition());
-			doctor.setAvatar(avatarData);
+			doctor.setAvatar(wrapper.getAvatar());
+			doctor.setDescription(wrapper.getDescription());
 			userService.createDoctor(doctor);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -119,7 +120,8 @@ public class UserController extends BaseController {
 			employee.setGender(wrapper.getGender());
 			employee.setRoleId(role.getId());
 			employee.setPosition(wrapper.getPosition());
-			employee.setAvatar(avatarData);
+			employee.setAvatar(wrapper.getAvatar());
+			employee.setDescription(wrapper.getDescription());
 			userService.createEmployee(employee);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -133,7 +135,8 @@ public class UserController extends BaseController {
 			patient.setGender(wrapper.getGender());
 			patient.setRoleId(role.getId());
 			patient.setPosition(wrapper.getPosition());
-			patient.setAvatar(avatarData);
+			patient.setAvatar(wrapper.getAvatar());
+			patient.setDescription(wrapper.getDescription());
 			userService.createPatient(patient);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -205,4 +208,78 @@ public class UserController extends BaseController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/{id}/update", consumes = { "multipart/form-data" })
+	public ResponseEntity<BaseResponse> updateUser(@PathVariable int id,
+			@RequestHeader(value = "authorization") String token, @Valid @ModelAttribute CreateUserRequest wrapper)
+			throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		Role role = userService.getRole(wrapper.getRoleId());
+
+		System.out.println(wrapper.getAvatar());
+
+		if (role == null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Không tìm thấy role tương ứng");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+//		byte[] avatarData = null;
+//		if (wrapper.getAvatar() != null) {
+//			try {
+//				avatarData = wrapper.getAvatar().getBytes();
+//				System.out.println(avatarData);
+////				String avatarName = StringUtils.cleanPath(wrapper.getAvatar().getOriginalFilename());
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//			}
+//		}
+
+		if (wrapper.getRoleId() == 1) {
+			Doctor doctor = userService.findDoctor(id);
+			doctor.setName(wrapper.getName());
+			doctor.setEmail(wrapper.getEmail());
+			doctor.setPassword("0000");
+			doctor.setPhone(wrapper.getPhone());
+			doctor.setAddress(wrapper.getAddress());
+			doctor.setGender(wrapper.getGender());
+			doctor.setDescription(wrapper.getDescription());
+			doctor.setRoleId(role.getId());
+			doctor.setPosition(wrapper.getPosition());
+			doctor.setAvatar(wrapper.getAvatar());
+			userService.update(doctor);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		if (wrapper.getRoleId() == 2) {
+			Employee employee = userService.findEmployee(id);
+			employee.setName(wrapper.getName());
+			employee.setEmail(wrapper.getEmail());
+			employee.setPassword("0000");
+			employee.setPhone(wrapper.getPhone());
+			employee.setAddress(wrapper.getAddress());
+			employee.setGender(wrapper.getGender());
+			employee.setDescription(wrapper.getDescription());
+			employee.setRoleId(role.getId());
+			employee.setPosition(wrapper.getPosition());
+			employee.setAvatar(wrapper.getAvatar());
+			userService.update(employee);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		if (wrapper.getRoleId() == 5) {
+			Patient patient = userService.findPatient(id);
+			patient.setName(wrapper.getName());
+			patient.setEmail(wrapper.getEmail());
+			patient.setPassword("0000");
+			patient.setPhone(wrapper.getPhone());
+			patient.setDescription(wrapper.getDescription());
+			patient.setAddress(wrapper.getAddress());
+			patient.setGender(wrapper.getGender());
+			patient.setRoleId(role.getId());
+			patient.setPosition(wrapper.getPosition());
+			patient.setAvatar(wrapper.getAvatar());
+			userService.update(patient);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 }

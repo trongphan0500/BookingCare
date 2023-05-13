@@ -1,10 +1,10 @@
 package com.app.booking.springboot.request;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,7 +35,9 @@ public class CreateUserRequest {
 
 	private String description;
 
-	private MultipartFile avatar;
+	@Lob
+	@Column(name = "avatar", columnDefinition = "BLOB")
+	private byte[] avatar;
 
 	public String getName() {
 		return name;
@@ -101,11 +103,11 @@ public class CreateUserRequest {
 		this.description = description;
 	}
 
-	public MultipartFile getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(MultipartFile avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

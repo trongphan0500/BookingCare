@@ -16,7 +16,7 @@ public class UserResponseV2 {
 
 	private String phone;
 
-	private byte[] avatar;
+	private String avatar;
 
 	private String address;
 
@@ -33,6 +33,9 @@ public class UserResponseV2 {
 
 	private String note;
 
+	@JsonProperty("specialization_name")
+	private String specializationName;
+
 	public UserResponseV2() {
 	}
 
@@ -48,6 +51,8 @@ public class UserResponseV2 {
 		this.description = user.getDescription();
 		this.value = user.getValue();
 		this.note = user.getNote();
+		this.avatar = user.getAvatar();
+		this.specializationName = user.getSpecializationName();
 	}
 
 	public List<UserResponseV2> mapToList(List<UserModal> entiies) {
@@ -74,11 +79,11 @@ public class UserResponseV2 {
 		this.note = note;
 	}
 
-	public byte[] getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(byte[] avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 
@@ -92,6 +97,14 @@ public class UserResponseV2 {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getSpecializationName() {
+		return specializationName;
+	}
+
+	public void setSpecializationName(String specializationName) {
+		this.specializationName = specializationName;
 	}
 
 	public void setEmail(String email) {

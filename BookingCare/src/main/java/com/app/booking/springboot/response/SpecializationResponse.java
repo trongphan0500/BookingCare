@@ -1,22 +1,14 @@
-package com.app.booking.springboot.entity;
+package com.app.booking.springboot.response;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.app.booking.springboot.entity.Specialization;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Table(name = "specializations")
-public class Specialization {
+public class SpecializationResponse {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String code;
@@ -25,22 +17,34 @@ public class Specialization {
 
 	private String image;
 
-	@Column(name = "number_exam_rooms")
+	@JsonProperty("number_exam_rooms")
 	private int numberExamRooms;
 
 	private String description;
 
-	@OneToMany(mappedBy = "specialization")
-	private List<ExamRoom> examRooms;
-
-	@OneToMany(mappedBy = "specialization")
-	private List<Doctor> doctors;
-
-	@Column(name = "created_at")
+	@JsonProperty("created_at")
 	private Date createdAt;
 
-	@Column(name = "updated_at")
+	@JsonProperty("updated_at")
 	private Date updatedAt;
+
+	public SpecializationResponse() {
+	}
+
+	public SpecializationResponse(Specialization entity) {
+		this.id = entity.getId();
+		this.code = entity.getCode();
+		this.name = entity.getName();
+		this.image = entity.getImage();
+		this.numberExamRooms = entity.getNumberExamRooms();
+		this.description = entity.getDescription();
+		this.createdAt = entity.getCreatedAt();
+		this.updatedAt = entity.getUpdatedAt();
+	}
+
+	public List<SpecializationResponse> mapToList(List<Specialization> entiies) {
+		return entiies.stream().map(x -> new SpecializationResponse(x)).collect(Collectors.toList());
+	}
 
 	public int getId() {
 		return id;

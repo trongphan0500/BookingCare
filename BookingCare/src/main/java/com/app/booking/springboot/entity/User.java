@@ -33,7 +33,7 @@ public class User {
 //	private String avatar;
 
 	@Lob
-	@Column(name = "avatar", columnDefinition = "BLOB")
+	@Column(name = "avatar", columnDefinition = "LONGBLOB")
 	private byte[] avatar;
 
 	private int gender;

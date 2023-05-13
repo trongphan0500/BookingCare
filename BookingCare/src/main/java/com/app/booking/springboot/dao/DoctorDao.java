@@ -7,5 +7,7 @@ import com.app.booking.springboot.entity.Patient;
 public interface DoctorDao {
 
 	List<Patient> getHistoryExamination(int patentId, String keySearch) throws Exception;
+	
+	
 
 }

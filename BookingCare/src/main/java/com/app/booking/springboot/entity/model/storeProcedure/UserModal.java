@@ -3,7 +3,6 @@ package com.app.booking.springboot.entity.model.storeProcedure;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 @Entity
 public class UserModal {
@@ -17,9 +16,7 @@ public class UserModal {
 
 	private String email;
 
-	@Lob
-	@Column(name = "avatar", columnDefinition = "BLOB")
-	private byte[] avatar;
+	private String avatar;
 
 	private String address;
 
@@ -36,6 +33,9 @@ public class UserModal {
 
 	private String note;
 
+	@Column(name = "specialization_name")
+	private String specializationName;
+
 	public int getId() {
 		return id;
 	}
@@ -48,11 +48,11 @@ public class UserModal {
 		return name;
 	}
 
-	public byte[] getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(byte[] avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 
@@ -66,6 +66,14 @@ public class UserModal {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getSpecializationName() {
+		return specializationName;
+	}
+
+	public void setSpecializationName(String specializationName) {
+		this.specializationName = specializationName;
 	}
 
 	public String getPhone() {
