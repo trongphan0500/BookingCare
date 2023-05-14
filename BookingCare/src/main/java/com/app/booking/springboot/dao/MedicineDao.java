@@ -28,13 +28,13 @@ public interface MedicineDao {
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
 			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception;
 
-	List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate, String keySearch,
-			int status) throws Exception;
+	StoreProcedureListResult<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate,
+			String keySearch, int status, Pagination pagination) throws Exception;
 
 	StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
 			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception;
 
-	StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId,int isExpiry,
+	StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId, int isExpiry,
 			String keySearch, int status, int sortBy, Pagination pagination) throws Exception;
 
 }

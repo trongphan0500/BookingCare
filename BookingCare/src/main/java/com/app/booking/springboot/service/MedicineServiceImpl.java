@@ -56,9 +56,9 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate,
-			String keySearch, int status) throws Exception {
-		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate, keySearch, status);
+	public StoreProcedureListResult<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate,
+			String toDate, String keySearch, int status, Pagination pagination) throws Exception {
+		return medicineDao.getMedicineHistory(medicineId, fromDate, toDate, keySearch, status, pagination);
 	}
 
 	@Override

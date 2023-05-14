@@ -218,8 +218,8 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public List<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate, String toDate,
-			String keySearch, int status) throws Exception {
+	public StoreProcedureListResult<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate,
+			String toDate, String keySearch, int status, Pagination pagination) throws Exception {
 		StoredProcedureQuery query = this.getSession()
 				.createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModel.class)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
@@ -227,7 +227,10 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("status", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
 
+				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
 				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
 
@@ -236,13 +239,16 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("toDate", toDate);
 		query.setParameter("keySearch", keySearch);
 		query.setParameter("status", status);
+		query.setParameter("limit", pagination.getLimit());
+		query.setParameter("offset", pagination.getOffset());
 
+		int totalRecord = (int) query.getOutputParameterValue("total_record");
 		int statusCode = (int) query.getOutputParameterValue("status_code");
 		String messageError = query.getOutputParameterValue("message_error").toString();
 
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
-			return query.getResultList();
+			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:
