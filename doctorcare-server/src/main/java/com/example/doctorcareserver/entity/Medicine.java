@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +26,11 @@ public class Medicine {
 
 	private String name;
 
-	private String avatar;
+//	private String avatar;
+
+	@Lob
+	@Column(name = "avatar", columnDefinition = "LONGBLOB")
+	private byte[] avatar;
 
 	private String code;
 
@@ -46,6 +51,9 @@ public class Medicine {
 
 	@Column(name = "cost_price")
 	private float costPrice;
+
+	@Column(name = "inventory_quantity")
+	private int inventoryQuantity;
 
 	private int status;
 
@@ -104,11 +112,19 @@ public class Medicine {
 		this.name = name;
 	}
 
-	public String getAvatar() {
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
+
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
+	}
+
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 
@@ -279,23 +295,5 @@ public class Medicine {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	
-	public Medicine() {
-		super();
-	}
-
-	@Override
-	public String toString() {
-		return "Medicine [id=" + id + ", name=" + name + ", avatar=" + avatar + ", code=" + code + ", expiryDate="
-				+ expiryDate + ", normalizeName=" + normalizeName + ", prefixName=" + prefixName
-				+ ", outStockAlertQuantity=" + outStockAlertQuantity + ", retailPrice=" + retailPrice + ", costPrice="
-				+ costPrice + "]";
-	}
-
-	
-
-	
-	
 
 }

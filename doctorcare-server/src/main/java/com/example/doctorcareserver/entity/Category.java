@@ -32,7 +32,7 @@ public class Category {
 
 	private String description;
 
-	private boolean status;
+	private int status;
 
 	@OneToMany(mappedBy = "category")
 	private List<Medicine> medicines;
@@ -91,11 +91,11 @@ public class Category {
 		this.description = description;
 	}
 
-	public boolean isStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -122,15 +122,5 @@ public class Category {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", code=" + code + ", name=" + name + ", prefixName=" + prefixName
-				+ ", normalizeName=" + normalizeName + ", description=" + description + ", status=" + status
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
-
-	
-	
 
 }

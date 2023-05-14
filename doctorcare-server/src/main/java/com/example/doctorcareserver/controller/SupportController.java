@@ -33,10 +33,11 @@ public class SupportController  {
     {
     	MyQSender sender = new MyQSender();
     	Role role = new Role(1,"","","Paitent");
-    	Patient ptn = new Patient(pt.getName(), pt.getEmail(), pt.getPassword(), pt.getAddress(), pt.getPhone(), null, 1, null, 1, 1, 1, 1, null, role, null, null, null, pt.getWeight(),pt.getHeight(), null, null, null);
-    	sender.sendMessage(ptn);
-    	Patient patient = userDao.savePatient(ptn);
+    	sender.sendMessage(pt);
+    	Patient patient = userDao.savePatient(pt);
     	System.out.println("id : "+patient.getId());
+    
+//    	System.out.println(pt);
     	return patient;
     }
     @PostMapping("/sendPaitentSA")
@@ -44,9 +45,8 @@ public class SupportController  {
     {
     	SenderSA sender = new SenderSA();
     	Role role = new Role(1,"","","Paitent");
-    	Patient ptn = new Patient(pt.getName(), pt.getEmail(), pt.getPassword(), pt.getAddress(), pt.getPhone(), null, 1, null, 1, 1, 1, 1, null, role, null, null, null, pt.getWeight(),pt.getHeight(), null, null, null);
-    	sender.sendMessage(ptn);
-    	Patient patient = userDao.savePatient(ptn);
+    	sender.sendMessage(pt);
+    	Patient patient = userDao.savePatient(pt);
     	return patient;
     }
 }

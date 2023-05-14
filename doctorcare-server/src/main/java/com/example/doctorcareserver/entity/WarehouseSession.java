@@ -14,52 +14,52 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "warehouse_sessions")
 public class WarehouseSession {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String code;
-	
+
 	private float amount;
-	
+
 	@Column(name = "discount_percent")
 	private int discountPercent;
-	
+
 	@Column(name = "discount_amount")
 	private int discountAmount;
-	
+
 	@Column(name = "total_amount")
 	private float totalAmount;
-	
+
 	private int type;
-	
+
 	private int status;
-	
+
 	@Column(name = "receipt_number_no")
 	private int receiptNumberNo;
-	
-	@Column(name = "discount_type")
-	private int discountType;
-	
+
+	@Column(name = "manufacture_date")
+	private Date manufactureDate;
+
+	@Column(name = "expiry_date")
+	private Date expiryDate;
+
 	private String description;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "warehouse_session_details",
-               joinColumns = @JoinColumn(name = "warehouse_session_id"),
-               inverseJoinColumns = @JoinColumn(name = "medicine_id"))
-    private List<Medicine> medicines;
-	
+	@JoinTable(name = "warehouse_session_details", joinColumns = @JoinColumn(name = "warehouse_session_id"), inverseJoinColumns = @JoinColumn(name = "medicine_id"))
+	private List<Medicine> medicines;
+
 	@Column(name = "created_at")
 	private Date createdAt;
 
@@ -138,12 +138,20 @@ public class WarehouseSession {
 		this.receiptNumberNo = receiptNumberNo;
 	}
 
-	public int getDiscountType() {
-		return discountType;
+	public Date getManufactureDate() {
+		return manufactureDate;
 	}
 
-	public void setDiscountType(int discountType) {
-		this.discountType = discountType;
+	public void setManufactureDate(Date manufactureDate) {
+		this.manufactureDate = manufactureDate;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 
 	public String getDescription() {
@@ -186,14 +194,4 @@ public class WarehouseSession {
 		this.updatedAt = updatedAt;
 	}
 
-	@Override
-	public String toString() {
-		return "WarehouseSession [id=" + id + ", code=" + code + ", amount=" + amount + ", discountPercent="
-				+ discountPercent + ", discountAmount=" + discountAmount + ", totalAmount=" + totalAmount + ", type="
-				+ type + ", status=" + status + ", receiptNumberNo=" + receiptNumberNo + ", discountType="
-				+ discountType + ", description=" + description + ", employee=" + employee + ", medicines=" + medicines
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
-	
-	
 }

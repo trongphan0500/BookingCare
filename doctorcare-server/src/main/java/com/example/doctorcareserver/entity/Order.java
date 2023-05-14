@@ -69,15 +69,4 @@ public class Order {
 
 	@Column(name = "updated_at")
 	private Date updatedAt;
-
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", code=" + code + ", amount=" + amount + ", discountPercent=" + discountPercent
-				+ ", discountAmount=" + discountAmount + ", totalAmount=" + totalAmount + ", type=" + type + ", status="
-				+ status + ", receiptNumberNo=" + receiptNumberNo + ", discountType=" + discountType + ", description="
-				+ description + ", employee=" + employee + ", examninationHistory=" + examninationHistory
-				+ ", services=" + services + ", medicines=" + medicines + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
-	}
-	
 }

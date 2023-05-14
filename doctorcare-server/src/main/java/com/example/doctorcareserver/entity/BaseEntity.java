@@ -108,10 +108,4 @@ public class BaseEntity implements Serializable {
 	public String getUpdatedAtFormatVN() {
 		return this.getDatetimeFormatVN(updatedAt);
 	}
-
-	@Override
-	public String toString() {
-		return "BaseEntity [createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
-	
 }

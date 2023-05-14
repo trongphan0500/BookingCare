@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "patients")
 public class Patient extends User {
+
+
+	public Patient(String name, String email, String password, String address, String phone, byte[] avatar, int gender,
+			String description, int isActive, int isLogin, int verifyCode, String accessToken, String refeshToken,
+			String position, int roleId, Date createdAt, Date updatedAt) {
+		super(name, email, password, address, phone, avatar, gender, description, isActive, isLogin, verifyCode, accessToken,
+				refeshToken, position, roleId, createdAt, updatedAt);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public Patient(String name, String email, String password, String address, String phone, byte[] avatar, int gender,
+			String bloodType, int height, int weight, String job) {
+		super(name, email, password, address, phone, avatar, gender);
+		this.bloodType = bloodType;
+		this.height = height;
+		this.weight = weight;
+		this.job = job;
+	}
+
+
 
 	@Column(name = "blood_type")
 	private String bloodType;
@@ -30,20 +53,6 @@ public class Patient extends User {
 	
 	@OneToOne(mappedBy = "patient")
     private Registration registration;
-
-	public Patient( String name, String email, String password, String address, String phone, String avatar,
-			int gender, String description, int isActive, int isLogin, int verifyCode, int accessToken, String position,
-			Role role, Date createdAt, Date updatedAt, String bloodType, int height, int weight, String job,
-			List<ExamninationHistory> examninationHistories, Registration registration) {
-		super( name, email, password, address, phone, avatar, gender, description, isActive, isLogin, verifyCode,
-				accessToken, position, role, createdAt, updatedAt);
-		this.bloodType = bloodType;
-		this.height = height;
-		this.weight = weight;
-		this.job = job;
-		this.examninationHistories = examninationHistories;
-		this.registration = registration;
-	}
 
 	public String getBloodType() {
 		return bloodType;
@@ -93,30 +102,21 @@ public class Patient extends User {
 		this.registration = registration;
 	}
 
-	public Patient(int id, String name, String email, String password, String address, String phone, String avatar,
-			int gender, String description, int isActive, int isLogin, int verifyCode, int accessToken, String position,
-			Role role, Date createdAt, Date updatedAt) {
-		super(id, name, email, password, address, phone, avatar, gender, description, isActive, isLogin, verifyCode,
-				accessToken, position, role, createdAt, updatedAt);
-	}
 
-	public Patient() {
-		super();
-	}
 
 	@Override
 	public String toString() {
 		return "Patient [bloodType=" + bloodType + ", height=" + height + ", weight=" + weight + ", job=" + job
-				+ ", examninationHistories=" + examninationHistories + ", registration=" + registration
-				+ ", toString()=" + super.toString() + "]";
+				+ ", examninationHistories=" + examninationHistories + ", registration=" + registration + "]";
 	}
 
 	
 
 	
+
 	
 	
-	
+
 
 	
 	

@@ -30,15 +30,9 @@ public class ConsultationDetail {
 		@ManyToOne
 		@JoinColumn(name = "consultation_id")
 		private Consultation consultation;
+		
+		
 
-		@Override
-		public String toString() {
-			return "ConsultationDetail [id=" + id + ", quantity=" + quantity + ", medicine=" + medicine
-					+ ", consultation=" + consultation + "]";
-		}
-		
-		
-		
 		
 		
 		

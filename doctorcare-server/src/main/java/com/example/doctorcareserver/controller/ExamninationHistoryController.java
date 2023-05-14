@@ -20,4 +20,14 @@ public class ExamninationHistoryController {
 //		return examninationHistoryService.saveExamninationHistory(examninationHistory);
 //	}
 	
+//	/	@Autowired
+//	ExamninationHistoryService examninationHistoryService;
+//	
+//	@PostMapping("saveExamninationHistory")
+//	public ExamninationHistory saveExamninationHistory(ExamninationHistory examninationHistory)
+//	{
+//		
+//		return examninationHistoryService.saveExamninationHistory(examninationHistory);
+//	}
+	
 }

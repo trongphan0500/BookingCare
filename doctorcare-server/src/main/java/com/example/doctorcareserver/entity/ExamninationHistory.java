@@ -174,13 +174,5 @@ public class ExamninationHistory {
 	public ExamninationHistory() {
 		super();
 	}
-
-	@Override
-	public String toString() {
-		return "ExamninationHistory [id=" + id + ", timeDone=" + timeDone + ", timeExamination=" + timeExamination
-				+ ", reExaminationDate=" + reExaminationDate + ", consultation=" + consultation + ", createdAt="
-				+ createdAt + ", updatedAt=" + updatedAt + ", order=" + order + "]";
-	}
-	
 	
 }
