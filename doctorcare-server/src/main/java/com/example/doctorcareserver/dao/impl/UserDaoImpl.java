@@ -37,6 +37,11 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	public Patient savePatient(Patient pt) throws Exception {
 		// TODO Auto-generated method stub
 		Patient ptn = new Patient(pt.getName(),pt.getEmail(),"123",pt.getAddress(),pt.getPhone(),null,1,null,pt.getWeight(),pt.getHeight(),null);
+		ptn.setVerifyCode(1);
+		ptn.setIsActive(1);
+		ptn.setIsLogin(1);
+		ptn.setAccessToken("1");
+		ptn.setRoleId(1);
 		this.getSession().save(ptn);
 		System.out.println(pt);
 		return ptn;
