@@ -21,7 +21,7 @@ import com.app.bookingcare.exceptions.Pagination;
 import com.app.bookingcare.exceptions.StoreProcedureListResult;
 import com.app.bookingcare.exceptions.TechresHttpException;
 
-@Repository
+@Repository("userDao")
 @SuppressWarnings("unchecked")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
