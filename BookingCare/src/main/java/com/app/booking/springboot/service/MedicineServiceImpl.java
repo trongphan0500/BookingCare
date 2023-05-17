@@ -75,4 +75,19 @@ public class MedicineServiceImpl implements MedicineService {
 				pagination);
 	}
 
+	@Override
+	public void uploadAvatar(Medicine medicine) throws Exception {
+		medicineDao.uploadAvatar(medicine);
+	}
+
+	@Override
+	public Medicine findOne(int id) throws Exception {
+		return medicineDao.findOne(id);
+	}
+
+	@Override
+	public int checkEnoughQuantity(int medicineId, int quantityInput) throws Exception {
+		return medicineDao.checkEnoughQuantity(medicineId, quantityInput);
+	}
+
 }

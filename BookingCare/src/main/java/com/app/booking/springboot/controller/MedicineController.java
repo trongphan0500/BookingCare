@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningMode
 import com.app.booking.springboot.request.CreateMedicineRequest;
 import com.app.booking.springboot.request.CreateWarehouseSessionRequest;
 import com.app.booking.springboot.request.UpdateMedicineRequest;
+import com.app.booking.springboot.request.UploadAvatarRequest;
 import com.app.booking.springboot.response.BaseListDataResponse;
 import com.app.booking.springboot.response.BaseResponse;
 import com.app.booking.springboot.response.MedicineHistoryResponse;
@@ -97,6 +99,17 @@ public class MedicineController extends BaseController {
 						wrapper.getMethodOfUse(), wrapper.getOriginalName(), wrapper.getOutExpiryDateAlert())));
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/upload-avatar", consumes = { "multipart/form-data" })
+	public void uploadAvatar(@RequestHeader(value = "authorization") String token,
+			@Valid @ModelAttribute UploadAvatarRequest wrapper) throws Exception {
+		System.out.println(wrapper.getId());
+		Medicine medicine = medicineService.findOne(wrapper.getId());
+		medicine.setAvatar(wrapper.getAvatar());
+
+		medicineService.uploadAvatar(medicine);
+
 	}
 
 	@GetMapping(value = "/inventory/medicines", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -248,6 +261,21 @@ public class MedicineController extends BaseController {
 				wrapper.getType(), wrapper.getDiscountAmount(), wrapper.getManufactureDate(), wrapper.getExpiryDate(),
 				wrapper.getDescription(), json);
 
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/check-quantity", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse> checkQuantity(@RequestHeader(value = "Authorization") String token,
+			@RequestParam(name = "medicine_id", required = true) int medicineId,
+			@RequestParam(name = "quantity", required = true, defaultValue = "-1") int quantity) throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		int result = medicineService.checkEnoughQuantity(medicineId, quantity);
+		if(result == 1) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Không đủ số lượng");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

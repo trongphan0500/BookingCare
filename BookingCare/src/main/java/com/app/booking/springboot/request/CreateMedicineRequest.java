@@ -21,9 +21,12 @@ public class CreateMedicineRequest {
 //	@NotNull(message = "avatar không được null")
 
 	private String avatar = "";
+//	@Lob
+//	@Column(name = "avatar", columnDefinition = "BLOB")
+//	private byte[] avatar;
 
 	@JsonProperty("expiry_date")
-	private Date expiryDate ;
+	private Date expiryDate;
 
 	@JsonProperty("out_stock_alert_quantity")
 	@Min(value = 1, message = "outStockAlertQuantity > 0")
@@ -75,6 +78,14 @@ public class CreateMedicineRequest {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+//	public byte[] getAvatar() {
+//		return avatar;
+//	}
+//
+//	public void setAvatar(byte[] avatar) {
+//		this.avatar = avatar;
+//	}
 
 	public String getAvatar() {
 		return avatar;

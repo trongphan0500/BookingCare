@@ -17,6 +17,10 @@ public interface MedicineService {
 			float retailPrice, float costPrice, int status, String note, String storageUnit, String methodOfUse,
 			String originalName, int outExpiryDateAlert) throws Exception;
 
+	void uploadAvatar(Medicine medicine) throws Exception;
+
+	Medicine findOne(int id) throws Exception;
+
 	StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
 			int sortBy, Pagination pagination) throws Exception;
 
@@ -36,4 +40,6 @@ public interface MedicineService {
 
 	StoreProcedureListResult<MedicineInventoryNew> getInventoryMedicines(int categoryId, int medicineId, int isExpiry,
 			String keySearch, int status, int sortBy, Pagination pagination) throws Exception;
+
+	int checkEnoughQuantity(int medicineId, int quantityInput) throws Exception;
 }

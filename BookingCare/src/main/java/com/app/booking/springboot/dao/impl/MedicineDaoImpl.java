@@ -34,7 +34,6 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 				.createStoredProcedureQuery("sp_u_create_medicine", Medicine.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("name", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("avatar", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("expiryDate", Date.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("outStockAlertQuantity", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("retailPrice", Float.class, ParameterMode.IN)
@@ -51,7 +50,6 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 
 		query.setParameter("categoryId", categoryId);
 		query.setParameter("name", name);
-		query.setParameter("avatar", avatar);
 		query.setParameter("expiryDate", expiryDate);
 		query.setParameter("outStockAlertQuantity", outStockAlertQuantity);
 		query.setParameter("retailPrice", retailPrice);
@@ -172,7 +170,6 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("name", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("avatar", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("expiryDate", Date.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("outStockAlertQuantity", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("retailPrice", Float.class, ParameterMode.IN)
@@ -191,7 +188,6 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		query.setParameter("categoryId", categoryId);
 		query.setParameter("medicineId", medicineId);
 		query.setParameter("name", name);
-		query.setParameter("avatar", avatar);
 		query.setParameter("expiryDate", expiryDate);
 		query.setParameter("outStockAlertQuantity", outStockAlertQuantity);
 		query.setParameter("retailPrice", retailPrice);
@@ -331,6 +327,43 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
 			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public void uploadAvatar(Medicine medicine) throws Exception {
+		this.getSession().update(medicine);
+	}
+
+	@Override
+	public Medicine findOne(int id) throws Exception {
+		return this.getSession().get(Medicine.class, id);
+	}
+
+	@Override
+	public int checkEnoughQuantity(int medicineId, int quantityInput) throws Exception {
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_check_medicine_quantity")
+				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("quantity", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("medicineId", medicineId);
+		query.setParameter("quantity", quantityInput);
+
+		int result = (int) query.getOutputParameterValue("result");
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return result;
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:
