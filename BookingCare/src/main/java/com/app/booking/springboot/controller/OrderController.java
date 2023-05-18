@@ -30,7 +30,7 @@ public class OrderController extends BaseController {
 	@Autowired
 	private OrderService orderService;
 
-	@PostMapping(value = "/create-medicnes", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(value = "/create-medicines", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> createOrderMedicnes(@Valid @RequestBody CreateWarehouseSessionRequest wrapper,
 			@RequestHeader(value = "Authorization") String token) throws Exception {
 		BaseResponse response = new BaseResponse();
