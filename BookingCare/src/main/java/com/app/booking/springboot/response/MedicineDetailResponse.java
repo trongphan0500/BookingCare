@@ -4,16 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
+import com.app.booking.springboot.entity.Medicine;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MedicineResponse {
+public class MedicineDetailResponse {
+
 	private int id;
 
 	private String name;
 
-	private String avatar;
-//	private byte[] avatar;
+//	private String avatar;
+	private byte[] avatar;
 
 	private String code;
 
@@ -31,6 +32,9 @@ public class MedicineResponse {
 
 	@JsonProperty("retail_price")
 	private float retailPrice;
+
+	@JsonProperty("category_id")
+	private int categoryId;
 
 	@JsonProperty("cost_price")
 	private float costPrice;
@@ -65,14 +69,15 @@ public class MedicineResponse {
 	@JsonProperty("updated_at")
 	private Date updatedAt;
 
-	public MedicineResponse() {
+	public MedicineDetailResponse() {
 	}
 
-	public MedicineResponse(MedicineAvatar entity) {
+	public MedicineDetailResponse(Medicine entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.avatar = entity.getAvatar();
 		this.code = entity.getCode();
+		this.categoryId = entity.getCategory().getId();
 		this.expiryDate = entity.getExpiryDate();
 		this.normalizeName = entity.getNormalizeName();
 		this.prefixName = entity.getPrefixName();
@@ -92,24 +97,24 @@ public class MedicineResponse {
 		this.updatedAt = entity.getUpdatedAt();
 	}
 
-	public List<MedicineResponse> mapToList(List<MedicineAvatar> entiies) {
-		return entiies.stream().map(x -> new MedicineResponse(x)).collect(Collectors.toList());
+	public List<MedicineDetailResponse> mapToList(List<Medicine> entiies) {
+		return entiies.stream().map(x -> new MedicineDetailResponse(x)).collect(Collectors.toList());
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getInventoryQuantity() {
-		return inventoryQuantity;
-	}
-
-	public void setInventoryQuantity(int inventoryQuantity) {
-		this.inventoryQuantity = inventoryQuantity;
 	}
 
 	public String getName() {
@@ -120,11 +125,11 @@ public class MedicineResponse {
 		this.name = name;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 
@@ -182,6 +187,14 @@ public class MedicineResponse {
 
 	public void setCostPrice(float costPrice) {
 		this.costPrice = costPrice;
+	}
+
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
+
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
 	}
 
 	public int getStatus() {

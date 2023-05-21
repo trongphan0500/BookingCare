@@ -68,8 +68,6 @@ public class BaseController {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			UserClient map = mapper.readValue(decodedMime, UserClient.class);
-			System.out.println(map.getUserId());
-//			UserResponse user = new UserResponse(userService.findOne(map.getUserId()));
 			User user = userService.findOne(map.getUserId());
 			if (user.getIsLogin() == 0)
 				throw new TechresHttpException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name());
@@ -80,7 +78,6 @@ public class BaseController {
 		} catch (Exception e) {
 			throw new Exception("Thất bại");
 		}
-
 	}
 
 	public String formatDate(String inputDate) throws ParseException {

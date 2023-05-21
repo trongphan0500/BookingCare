@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.User;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
@@ -28,6 +29,7 @@ import com.app.booking.springboot.request.UpdateMedicineRequest;
 import com.app.booking.springboot.request.UploadAvatarRequest;
 import com.app.booking.springboot.response.BaseListDataResponse;
 import com.app.booking.springboot.response.BaseResponse;
+import com.app.booking.springboot.response.MedicineDetailResponse;
 import com.app.booking.springboot.response.MedicineHistoryResponse;
 import com.app.booking.springboot.response.MedicineInventoryResponseNew;
 import com.app.booking.springboot.response.MedicineResponse;
@@ -67,8 +69,8 @@ public class MedicineController extends BaseController {
 
 		Pagination pagination = new Pagination(page, limit);
 
-		StoreProcedureListResult<Medicine> medicines = medicineService.getMedicines(categoryId, medicineId, keySearch,
-				status, sortBy, pagination);
+		StoreProcedureListResult<MedicineAvatar> medicines = medicineService.getMedicines(categoryId, medicineId,
+				keySearch, status, sortBy, pagination);
 		BaseListDataResponse<MedicineResponse> listData = new BaseListDataResponse<>();
 		listData.setList(new MedicineResponse().mapToList(medicines.getResult()));
 
@@ -83,28 +85,34 @@ public class MedicineController extends BaseController {
 	public ResponseEntity<BaseResponse> getMedicine(@PathVariable("id") int id) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(new MedicineResponse(medicineService.getMedicine(id)));
+		response.setData(new MedicineDetailResponse(medicineService.getMedicine(id)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/create", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BaseResponse> spAddMedicine(@Valid @RequestBody CreateMedicineRequest wrapper)
-			throws Exception {
+	public ResponseEntity<BaseResponse<BaseListDataResponse<MedicineResponse>>> spAddMedicine(
+			@Valid @RequestBody CreateMedicineRequest wrapper) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		response.setData(new MedicineResponse(
-				medicineService.createMedicine(wrapper.getCategoryId(), wrapper.getName(), wrapper.getAvatar(),
-						wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(), wrapper.getRetailPrice(),
-						wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(), wrapper.getStorageUnit(),
-						wrapper.getMethodOfUse(), wrapper.getOriginalName(), wrapper.getOutExpiryDateAlert())));
+//		response.setData(medicineService.createMedicine(wrapper.getCategoryId(), wrapper.getName(), wrapper.getAvatar(),
+//				wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(), wrapper.getRetailPrice(),
+//				wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(), wrapper.getStorageUnit(),
+//				wrapper.getMethodOfUse(), wrapper.getOriginalName(), wrapper.getOutExpiryDateAlert()));
+		StoreProcedureListResult<MedicineAvatar> medicines = medicineService.createMedicine(wrapper.getCategoryId(),
+				wrapper.getName(), wrapper.getAvatar(), wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(),
+				wrapper.getRetailPrice(), wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(),
+				wrapper.getStorageUnit(), wrapper.getMethodOfUse(), wrapper.getOriginalName(),
+				wrapper.getOutExpiryDateAlert());
 
+		response.setData(medicines.getResult());
+		response.setMessage(medicines.getMessageError());
+		response.setStatus(medicines.getStatusCode());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/upload-avatar", consumes = { "multipart/form-data" })
 	public void uploadAvatar(@RequestHeader(value = "authorization") String token,
 			@Valid @ModelAttribute UploadAvatarRequest wrapper) throws Exception {
-		System.out.println(wrapper.getId());
 		Medicine medicine = medicineService.findOne(wrapper.getId());
 		medicine.setAvatar(wrapper.getAvatar());
 
@@ -271,7 +279,7 @@ public class MedicineController extends BaseController {
 		BaseResponse response = new BaseResponse();
 
 		int result = medicineService.checkEnoughQuantity(medicineId, quantity);
-		if(result == 1) {
+		if (result == 1) {
 			response.setStatus(HttpStatus.BAD_REQUEST);
 			response.setMessageError("Không đủ số lượng");
 			return new ResponseEntity<>(response, HttpStatus.OK);

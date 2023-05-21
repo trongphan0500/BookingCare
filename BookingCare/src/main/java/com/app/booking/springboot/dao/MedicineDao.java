@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.app.booking.springboot.entity.Medicine;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
@@ -13,7 +14,7 @@ import com.app.bookingcare.exceptions.StoreProcedureListResult;
 
 public interface MedicineDao {
 
-	Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate, int outStockAlertQuantity,
+	StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar, Date expiryDate, int outStockAlertQuantity,
 			float retailPrice, float costPrice, int status, String note, String storageUnit, String methodOfUse,
 			String originalName, int outExpiryDateAlert) throws Exception;
 
@@ -21,7 +22,7 @@ public interface MedicineDao {
 
 	Medicine findOne(int id) throws Exception;
 
-	StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
+	StoreProcedureListResult<MedicineAvatar> getMedicines(int categoryId, int medicineId, String keySearch, int status,
 			int sortBy, Pagination pagination) throws Exception;
 
 	Medicine getMedicine(int medicineId) throws Exception;

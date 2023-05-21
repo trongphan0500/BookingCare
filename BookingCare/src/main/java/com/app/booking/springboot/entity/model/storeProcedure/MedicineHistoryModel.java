@@ -13,6 +13,8 @@ public class MedicineHistoryModel {
 
 	private int quantity;
 
+	private String avatar;
+
 	@Column(name = "warehouse_session_status")
 	private int warehouseSessionStatus;
 
@@ -32,6 +34,14 @@ public class MedicineHistoryModel {
 
 	public int getQuantity() {
 		return quantity;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	public void setQuantity(int quantity) {

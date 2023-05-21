@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
@@ -26,12 +27,12 @@ import com.app.bookingcare.exceptions.TechresHttpException;
 @SuppressWarnings("unchecked")
 public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements MedicineDao {
 	@Override
-	public Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate,
-			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+	public StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar,
+			Date expiryDate, int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note,
+			String storageUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
 
 		StoredProcedureQuery query = this.getSession()
-				.createStoredProcedureQuery("sp_u_create_medicine", Medicine.class)
+				.createStoredProcedureQuery("sp_u_create_medicine", MedicineAvatar.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("name", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("expiryDate", Date.class, ParameterMode.IN)
@@ -66,18 +67,20 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
-			return (Medicine) query.getResultList().stream().findFirst().orElse(null);
+			return new StoreProcedureListResult<>(statusCode, messageError, query.getResultList());
 		case INPUT_INVALID:
-			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+//			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+			return new StoreProcedureListResult<>(statusCode, messageError, null);
 		default:
 			throw new Exception(messageError);
 		}
 	}
 
 	@Override
-	public StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
-			int sortBy, Pagination pagination) throws Exception {
-		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_medicines", Medicine.class)
+	public StoreProcedureListResult<MedicineAvatar> getMedicines(int categoryId, int medicineId, String keySearch,
+			int status, int sortBy, Pagination pagination) throws Exception {
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_medicines", MedicineAvatar.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)

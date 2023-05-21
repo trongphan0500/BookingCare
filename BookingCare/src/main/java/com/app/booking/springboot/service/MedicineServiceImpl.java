@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
@@ -24,7 +25,7 @@ public class MedicineServiceImpl implements MedicineService {
 	private MedicineDao medicineDao;
 
 	@Override
-	public Medicine createMedicine(int categoryId, String name, String avatar, Date expiryDate,
+	public StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar, Date expiryDate,
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
 			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
 		return medicineDao.createMedicine(categoryId, name, avatar, expiryDate, outStockAlertQuantity, retailPrice,
@@ -32,8 +33,8 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public StoreProcedureListResult<Medicine> getMedicines(int categoryId, int medicineId, String keySearch, int status,
-			int sortBy, Pagination pagination) throws Exception {
+	public StoreProcedureListResult<MedicineAvatar> getMedicines(int categoryId, int medicineId, String keySearch,
+			int status, int sortBy, Pagination pagination) throws Exception {
 		return medicineDao.getMedicines(categoryId, medicineId, keySearch, status, sortBy, pagination);
 	}
 

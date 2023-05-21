@@ -3,7 +3,6 @@ package com.app.booking.springboot.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,10 +30,10 @@ public class Registration {
 	private int status;
 
 	private int type;
-	
+
 	@Column(name = "examination_fee")
 	private float examinationFee;
-	
+
 	@Column(name = "cardinal_number")
 	private int cardinalNumber;
 
@@ -51,7 +49,7 @@ public class Registration {
 	@JoinColumn(name = "exam_room_id")
 	private ExamRoom examRoom;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 

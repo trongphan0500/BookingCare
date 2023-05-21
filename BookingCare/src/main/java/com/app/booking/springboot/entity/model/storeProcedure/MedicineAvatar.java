@@ -1,13 +1,15 @@
-package com.app.booking.springboot.response;
+package com.app.booking.springboot.entity.model.storeProcedure;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class MedicineResponse {
+@Entity
+public class MedicineAvatar {
+
+	@Id
 	private int id;
 
 	private String name;
@@ -17,25 +19,25 @@ public class MedicineResponse {
 
 	private String code;
 
-	@JsonProperty("expiry_date")
+	@Column(name = "expiry_date")
 	private Date expiryDate;
 
-	@JsonProperty("normalize_name")
+	@Column(name = "normalize_name")
 	private String normalizeName;
 
-	@JsonProperty("prefix_name")
+	@Column(name = "prefix_name")
 	private String prefixName;
 
-	@JsonProperty("out_stock_alert_quantity")
+	@Column(name = "out_stock_alert_quantity")
 	private int outStockAlertQuantity;
 
-	@JsonProperty("retail_price")
+	@Column(name = "retail_price")
 	private float retailPrice;
 
-	@JsonProperty("cost_price")
+	@Column(name = "cost_price")
 	private float costPrice;
 
-	@JsonProperty("inventory_quantity")
+	@Column(name = "inventory_quantity")
 	private int inventoryQuantity;
 
 	private int status;
@@ -44,57 +46,26 @@ public class MedicineResponse {
 
 	private String note;
 
-	@JsonProperty("storage_unit")
+	@Column(name = "storage_unit")
 	private String storageUnit;
 
-	@JsonProperty("use_unit")
+	@Column(name = "use_unit")
 	private String useUnit;
 
-	@JsonProperty("method_of_use")
+	@Column(name = "method_of_use")
 	private String methodOfUse;
 
-	@JsonProperty("original_name")
+	@Column(name = "original_name")
 	private String originalName;
 
-	@JsonProperty("out_expiry_date_alert")
+	@Column(name = "out_expiry_date_alert")
 	private int outExpiryDateAlert;
 
-	@JsonProperty("created_at")
+	@Column(name = "created_at")
 	private Date createdAt;
 
-	@JsonProperty("updated_at")
+	@Column(name = "updated_at")
 	private Date updatedAt;
-
-	public MedicineResponse() {
-	}
-
-	public MedicineResponse(MedicineAvatar entity) {
-		this.id = entity.getId();
-		this.name = entity.getName();
-		this.avatar = entity.getAvatar();
-		this.code = entity.getCode();
-		this.expiryDate = entity.getExpiryDate();
-		this.normalizeName = entity.getNormalizeName();
-		this.prefixName = entity.getPrefixName();
-		this.outStockAlertQuantity = entity.getOutStockAlertQuantity();
-		this.retailPrice = entity.getRetailPrice();
-		this.costPrice = entity.getCostPrice();
-		this.status = entity.getStatus();
-		this.inventoryQuantity = entity.getInventoryQuantity();
-		this.type = entity.getType();
-		this.note = entity.getNote();
-		this.storageUnit = entity.getStorageUnit();
-		this.useUnit = entity.getUseUnit();
-		this.methodOfUse = entity.getMethodOfUse();
-		this.originalName = entity.getOriginalName();
-		this.outExpiryDateAlert = entity.getOutExpiryDateAlert();
-		this.createdAt = entity.getCreatedAt();
-		this.updatedAt = entity.getUpdatedAt();
-	}
-
-	public List<MedicineResponse> mapToList(List<MedicineAvatar> entiies) {
-		return entiies.stream().map(x -> new MedicineResponse(x)).collect(Collectors.toList());
-	}
 
 	public int getId() {
 		return id;
@@ -102,14 +73,6 @@ public class MedicineResponse {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getInventoryQuantity() {
-		return inventoryQuantity;
-	}
-
-	public void setInventoryQuantity(int inventoryQuantity) {
-		this.inventoryQuantity = inventoryQuantity;
 	}
 
 	public String getName() {
@@ -182,6 +145,14 @@ public class MedicineResponse {
 
 	public void setCostPrice(float costPrice) {
 		this.costPrice = costPrice;
+	}
+
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
+
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
 	}
 
 	public int getStatus() {

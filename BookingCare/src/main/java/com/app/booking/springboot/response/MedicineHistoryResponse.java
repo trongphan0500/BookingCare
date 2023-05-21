@@ -16,6 +16,8 @@ public class MedicineHistoryResponse {
 	@JsonProperty("warehouse_session_status")
 	private String warehouseSessionStatus;
 
+	private String avatar;
+
 	private int id;
 
 	private String name;
@@ -27,6 +29,7 @@ public class MedicineHistoryResponse {
 
 	public MedicineHistoryResponse(MedicineHistoryModel entity) {
 		this.createdAt = entity.getCreatedAt();
+		this.avatar = entity.getAvatar();
 		this.quantity = entity.getQuantity();
 		this.warehouseSessionStatus = entity.getWarehouseSessionStatus() == 1 ? "Xuất kho" : "Nhập kho";
 		this.id = entity.getId();
@@ -36,6 +39,14 @@ public class MedicineHistoryResponse {
 
 	public List<MedicineHistoryResponse> mapToList(List<MedicineHistoryModel> entiies) {
 		return entiies.stream().map(x -> new MedicineHistoryResponse(x)).collect(Collectors.toList());
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	public String getCreatedAt() {
