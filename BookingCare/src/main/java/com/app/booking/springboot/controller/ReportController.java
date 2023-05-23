@@ -33,8 +33,8 @@ public class ReportController extends BaseController {
 
 	@GetMapping(value = "/profit-revenue", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> spGCreateReport(@RequestParam("report_type") int reportType,
-			@RequestParam("from_date") String fromDateString, @RequestParam("to_date") String toDateString,
-			@RequestHeader(value = "authorization") String token) throws Exception {
+			@RequestParam("from_date") String fromDateString, @RequestParam("to_date") String toDateString)
+			throws Exception {
 		BaseResponse response = new BaseResponse();
 
 		response.setData(
@@ -45,12 +45,10 @@ public class ReportController extends BaseController {
 	@GetMapping(value = "/best-seller", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse<BaseListDataResponse<BestSellerResponse>>> getBestSeller(
 			@RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
-			@RequestParam(name = "limit", required = false, defaultValue = "-1") int limit,
-			@RequestHeader(value = "authorization") String token) throws Exception {
+			@RequestParam(name = "limit", required = false, defaultValue = "-1") int limit) throws Exception {
 		BaseResponse<BaseListDataResponse<BestSellerResponse>> response = new BaseResponse<>();
 
-		StoreProcedureListResult<BestSeller> bestSeller = reportService.spGetBestSeller(this.formatDate(fromDate),
-				this.formatDate(toDate), limit);
+		StoreProcedureListResult<BestSeller> bestSeller = reportService.spGetBestSeller((fromDate), (toDate), limit);
 
 		BaseListDataResponse<BestSellerResponse> listData = new BaseListDataResponse<>();
 

@@ -27,27 +27,16 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
 	@Override
 	public User findOne(int id) throws Exception {
-//		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_g_user", User.class)
-//				.registerStoredProcedureParameter("userId", Integer.class, ParameterMode.IN)
-//
-//				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
-//				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
-//
-//		query.setParameter("userId", id);
-//
-//		int statusCode = (int) query.getOutputParameterValue("status_code");
-//		String messageError = query.getOutputParameterValue("message_error").toString();
-//
-//		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
-//		case SUCCESS:
-//			return (User) query.getResultList().stream().findFirst().orElse(null);
-//		case INPUT_INVALID:
-//			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
-//		default:
-//			throw new Exception(messageError);
-//		}
 		User user = this.getSession().get(User.class, id);
 		return user;
+	}
+
+	@Override
+	public User findByEmail(String email) throws Exception {
+		String hql = "FROM User u WHERE u.email LIKE :prefix";
+		Query<User> query = getSession().createQuery(hql, User.class);
+		query.setParameter("prefix", email + "%");
+		return query.uniqueResult();
 	}
 
 	public void update(User entity) {
@@ -167,5 +156,31 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		return this.getSession().get(Employee.class, id);
 	}
 
+	@Override
+	public StoreProcedureListResult<UserModal> spULogin(String email, String password) throws Exception {
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_u_login", User.class)
+				.registerStoredProcedureParameter("_email", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("_password", String.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("accessToken", String.class, ParameterMode.OUT);
+
+		query.setParameter("_email", email);
+		query.setParameter("_password", password);
+
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+		String accessToken = query.getOutputParameterValue("accessToken").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return new StoreProcedureListResult<>(statusCode, messageError, null);
+		case INPUT_INVALID:
+			return new StoreProcedureListResult<>(statusCode, messageError, null);
+		default:
+			throw new Exception(messageError);
+		}
+	}
 
 }

@@ -147,53 +147,20 @@ public class MedicineController extends BaseController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-//	@GetMapping(value = "/inventory", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<BaseResponse> getMedicineInventory(
-//			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId,
-//			@RequestParam(name = "medicine_id", required = false, defaultValue = "-1") int medicineId)
-//			throws Exception {
-//		BaseResponse response = new BaseResponse();
-//
-//		response.setData(
-//				new MedicineInventoryResponse().mapToList(medicineService.getMedicineInvetory(categoryId, medicineId)));
-//		return new ResponseEntity<>(response, HttpStatus.OK);
-//	}
-
-//	@PostMapping(value = "/{id}/update", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<BaseResponse> updateMedicine(@PathVariable("id") int id,
-//			@RequestBody UpdateMedicineRequest wrapper) throws Exception {
-//		BaseResponse response = new BaseResponse();
-//
-//		Medicine medicine = medicineService.getMedicine(id);
-//
-////		medicine.ca(wrapper.getCategoryId());
-//		medicine.setName(wrapper.getName());
-//		medicine.setAvatar(wrapper.getAvatar());
-//		medicine.setExpiryDate(wrapper.getExpiryDate());
-//		medicine.setOutStockAlertQuantity(wrapper.getOutStockAlertQuantity());
-//		medicine.setRetailPrice(wrapper.getRetailPrice());
-//		medicine.setCostPrice(wrapper.getCostPrice());
-//		medicine.setStatus(wrapper.getStatus());
-//		medicine.setNote(wrapper.getNote());
-//		medicine.setStorageUnit(wrapper.getStorageUnit());
-//		medicine.setOutExpiryDateAlert(wrapper.getOutExpiryDateAlert());
-//
-//		medicineService.updateMedicine(medicine);
-//
-//		return new ResponseEntity<>(response, HttpStatus.OK);
-//	}
-
 	@PostMapping(value = "/{id}/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BaseResponse> updateMedicine(@PathVariable("id") int id,
 			@Valid @RequestBody UpdateMedicineRequest wrapper) throws Exception {
 		BaseResponse response = new BaseResponse();
 
-		medicineService.updateMedicine(wrapper.getCategoryId(), id, wrapper.getName(), wrapper.getAvatar(),
-				wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(), wrapper.getRetailPrice(),
-				wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(), wrapper.getStorageUnit(),
-				wrapper.getUseUnit(), wrapper.getMethodOfUse(), wrapper.getOriginalName(),
+		StoreProcedureListResult update = medicineService.updateMedicine(wrapper.getCategoryId(), id, wrapper.getName(),
+				wrapper.getAvatar(), wrapper.getExpiryDate(), wrapper.getOutStockAlertQuantity(),
+				wrapper.getRetailPrice(), wrapper.getCostPrice(), wrapper.getStatus(), wrapper.getNote(),
+				wrapper.getStorageUnit(), wrapper.getUseUnit(), wrapper.getMethodOfUse(), wrapper.getOriginalName(),
 				wrapper.getOutExpiryDateAlert());
 
+		response.setData(update.getResult());
+		response.setMessage(update.getMessageError());
+		response.setStatus(update.getStatusCode());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

@@ -25,9 +25,9 @@ public class MedicineServiceImpl implements MedicineService {
 	private MedicineDao medicineDao;
 
 	@Override
-	public StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar, Date expiryDate,
-			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+	public StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar,
+			Date expiryDate, int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note,
+			String storageUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
 		return medicineDao.createMedicine(categoryId, name, avatar, expiryDate, outStockAlertQuantity, retailPrice,
 				costPrice, status, note, storageUnit, methodOfUse, originalName, outExpiryDateAlert);
 	}
@@ -49,11 +49,13 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public void updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
-			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
-		medicineDao.updateMedicine(categoryId, medicineId, name, avatar, expiryDate, outStockAlertQuantity, retailPrice,
-				costPrice, status, note, storageUnit, useUnit, methodOfUse, originalName, outExpiryDateAlert);
+	public StoreProcedureListResult updateMedicine(int categoryId, int medicineId, String name, String avatar,
+			Date expiryDate, int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note,
+			String storageUnit, String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert)
+			throws Exception {
+		return medicineDao.updateMedicine(categoryId, medicineId, name, avatar, expiryDate, outStockAlertQuantity,
+				retailPrice, costPrice, status, note, storageUnit, useUnit, methodOfUse, originalName,
+				outExpiryDateAlert);
 	}
 
 	@Override

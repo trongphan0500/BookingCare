@@ -25,6 +25,7 @@ import com.app.booking.springboot.entity.Patient;
 import com.app.booking.springboot.entity.Role;
 import com.app.booking.springboot.entity.User;
 import com.app.booking.springboot.entity.model.storeProcedure.UserModal;
+import com.app.booking.springboot.request.CRUDLoginRequest;
 import com.app.booking.springboot.request.ChangePasswordRequest;
 import com.app.booking.springboot.request.CreateUserRequest;
 import com.app.booking.springboot.response.BaseListDataResponse;
@@ -280,6 +281,20 @@ public class UserController extends BaseController {
 			userService.update(patient);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/login", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse<BaseListDataResponse<UserModal>>> spULogin(
+			@Valid @RequestBody CRUDLoginRequest w) throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		response.setStatus(userService.spULogin(w.getEmail(), w.getPassword()).getStatusCode());
+		response.setMessageError(userService.spULogin(w.getEmail(), w.getPassword()).getMessageError());
+		if (userService.spULogin(w.getEmail(), w.getPassword()).getStatusCode() == 0) {
+			response.setData(userService.findByEmail(w.getEmail()));
+		}
+
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

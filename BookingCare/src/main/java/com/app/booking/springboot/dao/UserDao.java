@@ -15,6 +15,8 @@ public interface UserDao {
 
 	User findOne(int id) throws Exception;
 
+	User findByEmail(String email) throws Exception;
+
 	void update(User entity) throws Exception;;
 
 	List<Role> getAllRole(String pre) throws Exception;
@@ -47,4 +49,7 @@ public interface UserDao {
 
 	StoreProcedureListResult<UserModal> getUsers(int userId, String keySearch, int sortBy, int isActive, int userDefine,
 			Pagination pagination) throws Exception;
+
+	StoreProcedureListResult<UserModal> spULogin(String phone, String password) throws Exception;
+
 }

@@ -109,4 +109,14 @@ public class UserServiceImpl implements UserService {
 		return userDao.findEmployee(id);
 	}
 
+	@Override
+	public StoreProcedureListResult<UserModal> spULogin(String phone, String password) throws Exception {
+		return userDao.spULogin(phone, password);
+	}
+
+	@Override
+	public User findByEmail(String email) throws Exception {
+		return userDao.findByEmail(email);
+	}
+
 }

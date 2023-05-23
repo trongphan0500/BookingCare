@@ -53,11 +53,12 @@ public class OrderController extends BaseController {
 
 		int result = orderService.checkQuantityMedicine(medicineId, quantity);
 
-		if (result == 0) {
+		if (result == 1) {
 			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Không đủ số lượng");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
-
+		
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

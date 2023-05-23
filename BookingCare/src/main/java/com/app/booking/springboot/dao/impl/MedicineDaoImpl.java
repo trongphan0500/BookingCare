@@ -165,9 +165,10 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public void updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
-			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
-			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception {
+	public StoreProcedureListResult updateMedicine(int categoryId, int medicineId, String name, String avatar,
+			Date expiryDate, int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note,
+			String storageUnit, String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert)
+			throws Exception {
 		StoredProcedureQuery query = this.getSession()
 				.createStoredProcedureQuery("sp_u_update_medicine", Medicine.class)
 				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
@@ -208,9 +209,9 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
-			return;
+			return new StoreProcedureListResult<>(statusCode, messageError, null);
 		case INPUT_INVALID:
-			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+			return new StoreProcedureListResult<>(statusCode, messageError, null);
 		default:
 			throw new Exception(messageError);
 		}

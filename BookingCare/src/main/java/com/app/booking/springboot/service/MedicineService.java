@@ -29,7 +29,7 @@ public interface MedicineService {
 
 	List<MedicineInventoryModel> getMedicineInvetory(int categoryId, int medicineId) throws Exception;
 
-	void updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
+	StoreProcedureListResult updateMedicine(int categoryId, int medicineId, String name, String avatar, Date expiryDate,
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,
 			String useUnit, String methodOfUse, String originalName, int outExpiryDateAlert) throws Exception;
 
