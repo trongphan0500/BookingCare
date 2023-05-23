@@ -77,6 +77,20 @@ public class UserController extends BaseController {
 			@Valid @ModelAttribute CreateUserRequest wrapper) throws Exception {
 		BaseResponse response = new BaseResponse();
 
+		User user = userService.findByEmail(wrapper.getEmail());
+
+		if (user != null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Email đã tồn tại");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
+		if (userService.findByPhone(wrapper.getPhone()) != null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Số điện thoại đã tồn tại");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
 		Role role = userService.getRole(wrapper.getRoleId());
 
 		System.out.println(wrapper.getDescription());
@@ -108,6 +122,7 @@ public class UserController extends BaseController {
 			doctor.setPosition(wrapper.getPosition());
 			doctor.setAvatar(wrapper.getAvatar());
 			doctor.setDescription(wrapper.getDescription());
+			doctor.setIsActive(1);
 			userService.createDoctor(doctor);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -123,6 +138,7 @@ public class UserController extends BaseController {
 			employee.setPosition(wrapper.getPosition());
 			employee.setAvatar(wrapper.getAvatar());
 			employee.setDescription(wrapper.getDescription());
+			employee.setIsActive(1);
 			userService.createEmployee(employee);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -138,6 +154,7 @@ public class UserController extends BaseController {
 			patient.setPosition(wrapper.getPosition());
 			patient.setAvatar(wrapper.getAvatar());
 			patient.setDescription(wrapper.getDescription());
+			patient.setIsActive(1);
 			userService.createPatient(patient);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -214,10 +231,27 @@ public class UserController extends BaseController {
 			@RequestHeader(value = "authorization") String token, @Valid @ModelAttribute CreateUserRequest wrapper)
 			throws Exception {
 		BaseResponse response = new BaseResponse();
+		User user = userService.findByEmail(wrapper.getEmail());
+
+		if (user == null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("User khoong tồn tại");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
+		if (userService.checkEmail(wrapper.getEmail(), user.getId()) != null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Email đã tồn tại");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
+		if (userService.checkPhone(wrapper.getPhone(), user.getId()) != null) {
+			response.setStatus(HttpStatus.BAD_REQUEST);
+			response.setMessageError("Số điện thoại đã tồn tại");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 
 		Role role = userService.getRole(wrapper.getRoleId());
-
-		System.out.println(wrapper.getAvatar());
 
 		if (role == null) {
 			response.setStatus(HttpStatus.BAD_REQUEST);

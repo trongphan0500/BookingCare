@@ -35,7 +35,33 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	public User findByEmail(String email) throws Exception {
 		String hql = "FROM User u WHERE u.email LIKE :prefix";
 		Query<User> query = getSession().createQuery(hql, User.class);
-		query.setParameter("prefix", email + "%");
+		query.setParameter("prefix", email);
+		return query.uniqueResult();
+	}
+
+	@Override
+	public User findByPhone(String phone) throws Exception {
+		String hql = "FROM User u WHERE u.phone LIKE :prefix";
+		Query<User> query = getSession().createQuery(hql, User.class);
+		query.setParameter("prefix", phone);
+		return query.uniqueResult();
+	}
+
+	@Override
+	public User checkEmail(String email, int id) throws Exception {
+		String hql = "FROM User u WHERE u.email = :prefix AND u.id <> :id";
+		Query<User> query = getSession().createQuery(hql, User.class);
+		query.setParameter("prefix", email);
+		query.setParameter("id", id);
+		return query.uniqueResult();
+	}
+
+	@Override
+	public User checkPhone(String phone, int id) throws Exception {
+		String hql = "FROM User u WHERE u.phone = :prefix AND u.id <> :id";
+		Query<User> query = getSession().createQuery(hql, User.class);
+		query.setParameter("prefix", phone);
+		query.setParameter("id", id);
 		return query.uniqueResult();
 	}
 

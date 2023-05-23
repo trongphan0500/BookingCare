@@ -119,4 +119,19 @@ public class UserServiceImpl implements UserService {
 		return userDao.findByEmail(email);
 	}
 
+	@Override
+	public User findByPhone(String phone) throws Exception {
+		return userDao.findByPhone(phone);
+	}
+
+	@Override
+	public User checkEmail(String email, int id) throws Exception {
+		return userDao.checkEmail(email, id);
+	}
+
+	@Override
+	public User checkPhone(String phone, int id) throws Exception {
+		return userDao.checkPhone(phone, id);
+	}
+
 }

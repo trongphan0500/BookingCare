@@ -14,8 +14,14 @@ import com.app.bookingcare.exceptions.StoreProcedureListResult;
 public interface UserService {
 
 	User findOne(int id) throws Exception;
-	
+
 	User findByEmail(String email) throws Exception;
+
+	User findByPhone(String phone) throws Exception;
+
+	User checkEmail(String email, int id) throws Exception;
+
+	User checkPhone(String phone, int id) throws Exception;
 
 	void update(User entity) throws Exception;
 

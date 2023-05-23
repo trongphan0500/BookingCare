@@ -17,6 +17,12 @@ public interface UserDao {
 
 	User findByEmail(String email) throws Exception;
 
+	User findByPhone(String email) throws Exception;
+
+	User checkEmail(String email, int id) throws Exception;
+
+	User checkPhone(String phone, int id) throws Exception;
+
 	void update(User entity) throws Exception;;
 
 	List<Role> getAllRole(String pre) throws Exception;
