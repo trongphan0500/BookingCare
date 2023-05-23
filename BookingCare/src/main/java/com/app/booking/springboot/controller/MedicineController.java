@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.User;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
-import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModal;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
 import com.app.booking.springboot.request.CreateMedicineRequest;
@@ -170,7 +170,7 @@ public class MedicineController extends BaseController {
 			@RequestParam(name = "from_date", required = false, defaultValue = "") String fromDate,
 			@RequestParam(name = "to_date", required = false, defaultValue = "") String toDate,
 			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch,
-			@RequestParam(name = "status", required = false, defaultValue = "1") int status,
+			@RequestParam(name = "status", required = false, defaultValue = "-1") int status,
 			@RequestParam(name = "limit", required = false, defaultValue = "-1") int limit,
 			@RequestParam(name = "page", required = false, defaultValue = "-1") int page
 
@@ -179,7 +179,7 @@ public class MedicineController extends BaseController {
 
 		Pagination pagination = new Pagination(page, limit);
 
-		StoreProcedureListResult<MedicineHistoryModel> medicines = medicineService.getMedicineHistory(medicineId,
+		StoreProcedureListResult<MedicineHistoryModal> medicines = medicineService.getMedicineHistory(medicineId,
 				fromDate, toDate, keySearch, status, pagination);
 		BaseListDataResponse<MedicineHistoryResponse> listData = new BaseListDataResponse<>();
 		listData.setList(new MedicineHistoryResponse().mapToList(medicines.getResult()));

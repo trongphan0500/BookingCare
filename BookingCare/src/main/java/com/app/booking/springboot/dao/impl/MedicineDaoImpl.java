@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.booking.springboot.dao.MedicineDao;
 import com.app.booking.springboot.entity.Medicine;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineAvatar;
-import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModel;
+import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModal;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryModel;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineInventoryNew;
 import com.app.booking.springboot.entity.model.storeProcedure.MedicineWaningModel;
@@ -218,10 +218,10 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
-	public StoreProcedureListResult<MedicineHistoryModel> getMedicineHistory(int medicineId, String fromDate,
+	public StoreProcedureListResult<MedicineHistoryModal> getMedicineHistory(int medicineId, String fromDate,
 			String toDate, String keySearch, int status, Pagination pagination) throws Exception {
 		StoredProcedureQuery query = this.getSession()
-				.createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModel.class)
+				.createStoredProcedureQuery("sp_g_medicine_history", MedicineHistoryModal.class)
 				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)

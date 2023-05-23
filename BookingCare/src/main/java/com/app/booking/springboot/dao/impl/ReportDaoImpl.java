@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.booking.springboot.dao.ReportDao;
+import com.app.booking.springboot.entity.model.storeProcedure.AllReport;
 import com.app.booking.springboot.entity.model.storeProcedure.BestSeller;
 import com.app.booking.springboot.entity.model.storeProcedure.Inventory;
 import com.app.booking.springboot.entity.model.storeProcedure.OutOfStock;
@@ -104,6 +105,30 @@ public class ReportDaoImpl extends AbstractDao<Integer, Report> implements Repor
 		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
 		case SUCCESS:
 			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public List<AllReport> getAllReportData(String keySearch) throws Exception {
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_all_info_report", AllReport.class)
+				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("keySearch", keySearch);
+
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return query.getResultList();
 		case INPUT_INVALID:
 			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
 		default:

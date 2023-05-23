@@ -2,6 +2,7 @@ package com.app.booking.springboot.dao;
 
 import java.util.List;
 
+import com.app.booking.springboot.entity.model.storeProcedure.AllReport;
 import com.app.booking.springboot.entity.model.storeProcedure.BestSeller;
 import com.app.booking.springboot.entity.model.storeProcedure.Inventory;
 import com.app.booking.springboot.entity.model.storeProcedure.OutOfStock;
@@ -18,4 +19,6 @@ public interface ReportDao {
 	List<Inventory> spGetInventory() throws Exception;
 
 	StoreProcedureListResult<OutOfStock> spGetOutOfStock(Pagination pagination) throws Exception;
+
+	List<AllReport> getAllReportData(String keySearch) throws Exception;
 }

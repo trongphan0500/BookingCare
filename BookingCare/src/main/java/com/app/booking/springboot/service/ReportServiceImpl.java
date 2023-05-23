@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.booking.springboot.dao.ReportDao;
+import com.app.booking.springboot.entity.model.storeProcedure.AllReport;
 import com.app.booking.springboot.entity.model.storeProcedure.BestSeller;
 import com.app.booking.springboot.entity.model.storeProcedure.Inventory;
 import com.app.booking.springboot.entity.model.storeProcedure.OutOfStock;
@@ -40,6 +41,11 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public StoreProcedureListResult<OutOfStock> spGetOutOfStock(Pagination pagination) throws Exception {
 		return dao.spGetOutOfStock(pagination);
+	}
+
+	@Override
+	public List<AllReport> getAllReportData(String keySearch) throws Exception {
+		return dao.getAllReportData(keySearch);
 	}
 
 }

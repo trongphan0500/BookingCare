@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.booking.springboot.entity.model.storeProcedure.BestSeller;
 import com.app.booking.springboot.entity.model.storeProcedure.OutOfStock;
+import com.app.booking.springboot.response.AllReportResponse;
 import com.app.booking.springboot.response.BaseListDataResponse;
 import com.app.booking.springboot.response.BaseResponse;
 import com.app.booking.springboot.response.BestSellerResponse;
@@ -75,6 +76,15 @@ public class ReportController extends BaseController {
 		listData.setTotalRecord(medicines.getTotalRecord());
 
 		response.setData(listData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/data-report", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BaseResponse> getDataReport(
+			@RequestParam(name = "key_search", required = false, defaultValue = "") String keySearch) throws Exception {
+		BaseResponse response = new BaseResponse();
+
+		response.setData(new AllReportResponse().mapToList(reportService.getAllReportData(keySearch)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

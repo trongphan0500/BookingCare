@@ -1,14 +1,14 @@
-package com.app.booking.springboot.response;
+package com.app.booking.springboot.entity.model.storeProcedure;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import com.app.booking.springboot.entity.model.storeProcedure.MedicineHistoryModal;
-import com.fasterxml.jackson.annotation.JsonProperty;
+@Entity
+public class MedicineHistoryModal {
 
-public class MedicineHistoryResponse {
-
-	@JsonProperty("medicine_id")
+	@Id
+	@Column(name = "medicine_id")
 	private int medicineId;
 
 	private String name;
@@ -17,30 +17,13 @@ public class MedicineHistoryResponse {
 
 	private String description;
 
-	@JsonProperty("warehouse_session_status")
+	@Column(name = "warehouse_session_status")
 	private int warehouseSessionStatus;
 
 	private int quantity;
 
-	@JsonProperty("created_at")
+	@Column(name = "created_at")
 	private String createAt;
-
-	public MedicineHistoryResponse() {
-	}
-
-	public MedicineHistoryResponse(MedicineHistoryModal entity) {
-		this.medicineId = entity.getMedicineId();
-		this.name = entity.getName();
-		this.avatar = entity.getAvatar();
-		this.description = entity.getDescription();
-		this.warehouseSessionStatus = entity.getWarehouseSessionStatus();
-		this.quantity = entity.getQuantity();
-		this.createAt = entity.getCreateAt();
-	}
-
-	public List<MedicineHistoryResponse> mapToList(List<MedicineHistoryModal> entiies) {
-		return entiies.stream().map(x -> new MedicineHistoryResponse(x)).collect(Collectors.toList());
-	}
 
 	public int getMedicineId() {
 		return medicineId;
