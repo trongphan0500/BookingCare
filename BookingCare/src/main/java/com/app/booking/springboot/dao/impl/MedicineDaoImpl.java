@@ -27,7 +27,7 @@ import com.app.bookingcare.exceptions.TechresHttpException;
 @Transactional
 @SuppressWarnings("unchecked")
 public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements MedicineDao {
-	
+
 	@Override
 	public StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar,
 			Date expiryDate, int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note,
@@ -258,47 +258,6 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 		}
 	}
 
-	@Override
-	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
-			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
-		StoredProcedureQuery query = this.getSession()
-				.createStoredProcedureQuery("sp_g_warning_medicines", MedicineWaningModel.class)
-				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("isExpriyDateAlert", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
-
-				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
-				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
-				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
-
-		query.setParameter("categoryId", categoryId);
-		query.setParameter("isExpriyDateAlert", isExpriyDateAlert);
-		query.setParameter("keySearch", keySearch);
-		query.setParameter("fromDate", fromDate);
-		query.setParameter("toDate", toDate);
-		query.setParameter("sortBy", sortBy);
-		query.setParameter("limit", pagination.getLimit());
-		query.setParameter("offset", pagination.getOffset());
-
-		int totalRecord = (int) query.getOutputParameterValue("total_record");
-		int statusCode = (int) query.getOutputParameterValue("status_code");
-		String messageError = query.getOutputParameterValue("message_error").toString();
-
-		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
-		case SUCCESS:
-			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
-		case INPUT_INVALID:
-			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
-		default:
-			throw new Exception(messageError);
-		}
-	}
-
 //	@Override
 //	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
 //			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
@@ -382,10 +341,89 @@ public class MedicineDaoImpl extends AbstractDao<Integer, Medicine> implements M
 	}
 
 	@Override
+	public void uploadAvatar(Medicine medicine) throws Exception {
+		this.getSession().update(medicine);
+	}
+
+	@Override
+	public Medicine findOne(int id) throws Exception {
+		return this.getSession().get(Medicine.class, id);
+	}
+
+	@Override
+	public int checkEnoughQuantity(int medicineId, int quantityInput) throws Exception {
+		StoredProcedureQuery query = this.getSession().createStoredProcedureQuery("sp_check_medicine_quantity")
+				.registerStoredProcedureParameter("medicineId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("quantity", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("medicineId", medicineId);
+		query.setParameter("quantity", quantityInput);
+
+		int result = (int) query.getOutputParameterValue("result");
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return result;
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
+	public StoreProcedureListResult<MedicineWaningModel> getWarningMedicine(int categoryId, int isExpriyDateAlert,
+			String keySearch, String fromDate, String toDate, int sortBy, Pagination pagination) throws Exception {
+		StoredProcedureQuery query = this.getSession()
+				.createStoredProcedureQuery("sp_g_warning_medicines", MedicineWaningModel.class)
+				.registerStoredProcedureParameter("categoryId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("isExpriyDateAlert", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("keySearch", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("sortBy", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("limit", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("offset", Integer.class, ParameterMode.IN)
+
+				.registerStoredProcedureParameter("total_record", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("status_code", Integer.class, ParameterMode.OUT)
+				.registerStoredProcedureParameter("message_error", String.class, ParameterMode.OUT);
+
+		query.setParameter("categoryId", categoryId);
+		query.setParameter("isExpriyDateAlert", isExpriyDateAlert);
+		query.setParameter("keySearch", keySearch);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", toDate);
+		query.setParameter("sortBy", sortBy);
+		query.setParameter("limit", pagination.getLimit());
+		query.setParameter("offset", pagination.getOffset());
+
+		int totalRecord = (int) query.getOutputParameterValue("total_record");
+		int statusCode = (int) query.getOutputParameterValue("status_code");
+		String messageError = query.getOutputParameterValue("message_error").toString();
+
+		switch (StoreProcedureStatusCodeEnum.valueOf(statusCode)) {
+		case SUCCESS:
+			return new StoreProcedureListResult<>(statusCode, messageError, totalRecord, query.getResultList());
+		case INPUT_INVALID:
+			throw new TechresHttpException(HttpStatus.BAD_REQUEST, messageError);
+		default:
+			throw new Exception(messageError);
+		}
+	}
+
+	@Override
 	public ArrayList<Medicine> getMediasfrom(String name) {
 		// TODO Auto-generated method stub
-		ArrayList<Medicine> list = (ArrayList<Medicine>) this.getSession().createQuery("FROM Medicine M WHERE M.name like '"+name+"%' ").list();
-		
+		ArrayList<Medicine> list = (ArrayList<Medicine>) this.getSession()
+				.createQuery("FROM Medicine M WHERE M.name like '" + name + "%' ").list();
+
 		return list;
 	}
 

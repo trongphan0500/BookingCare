@@ -25,23 +25,17 @@ public class MedicineHistoryResponse {
 	@JsonProperty("created_at")
 	private String createAt;
 
-	private String description;
-
 	public MedicineHistoryResponse() {
 	}
 
 	public MedicineHistoryResponse(MedicineHistoryModal entity) {
 		this.medicineId = entity.getMedicineId();
 		this.name = entity.getName();
-<<<<<<< HEAD
 		this.avatar = entity.getAvatar();
 		this.description = entity.getDescription();
 		this.warehouseSessionStatus = entity.getWarehouseSessionStatus();
 		this.quantity = entity.getQuantity();
 		this.createAt = entity.getCreateAt();
-=======
-		this.description = entity.getDescription();
->>>>>>> 56e256c72034e8d8b93ba34b6cbe18eb83a2831b
 	}
 
 	public List<MedicineHistoryResponse> mapToList(List<MedicineHistoryModal> entiies) {
@@ -102,14 +96,6 @@ public class MedicineHistoryResponse {
 
 	public void setCreateAt(String createAt) {
 		this.createAt = createAt;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

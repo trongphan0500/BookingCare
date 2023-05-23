@@ -137,8 +137,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Patient> findPatientByName(String name) {
-		// TODO Auto-generated method stub
 		return userDao.findPatientByName(name);
+	}
+
+	@Override
+	public User findPatient(String phone) throws Exception {
+		return null;
 	}
 
 }
