@@ -1,5 +1,6 @@
 package com.app.booking.springboot.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,6 +92,11 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public int checkEnoughQuantity(int medicineId, int quantityInput) throws Exception {
 		return medicineDao.checkEnoughQuantity(medicineId, quantityInput);
+	}
+
+	public ArrayList<Medicine> getMediasfrom(String name) {
+		// TODO Auto-generated method stub
+		return medicineDao.getMediasfrom(name);
 	}
 
 }

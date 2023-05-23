@@ -36,4 +36,82 @@ public class OrderServiceDetail {
 	
 	@Column(name = "created_at")
 	private Date createdAt;
+	
+	private byte[] avatar;
+	
+	public byte[] getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public float getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(float totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public OrderServiceDetail() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "OrderServiceDetail [id=" + id + ", name=" + name + ", price=" + price + ", totalAmount=" + totalAmount
+				+ ", service=" + service + ", createdAt=" + createdAt + "]";
+	}
+	
+	
 }

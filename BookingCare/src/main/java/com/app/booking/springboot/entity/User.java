@@ -1,5 +1,6 @@
 package com.app.booking.springboot.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -212,5 +213,42 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public User(int id, String name, String email, String password, String address, String phone, byte[] avatar,
+			int gender, String description, int isActive, int isLogin, int verifyCode, String accessToken,
+			String refeshToken, String position, int roleId, Date createdAt, Date updatedAt) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.phone = phone;
+		this.avatar = avatar;
+		this.gender = gender;
+		this.description = description;
+		this.isActive = isActive;
+		this.isLogin = isLogin;
+		this.verifyCode = verifyCode;
+		this.accessToken = accessToken;
+		this.refeshToken = refeshToken;
+		this.position = position;
+		this.roleId = roleId;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+	
+	
+	public User() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", address="
+				+ address + ", phone=" + phone + ", avatar=" + Arrays.toString(avatar) + ", gender=" + gender + "]";
+	}
+	
+	
 
 }

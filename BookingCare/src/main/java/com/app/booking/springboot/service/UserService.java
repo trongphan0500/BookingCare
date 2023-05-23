@@ -23,6 +23,10 @@ public interface UserService {
 
 	User checkPhone(String phone, int id) throws Exception;
 
+	User findPatient(String phone) throws Exception;
+
+	List<Patient> findPatientByName(String name);
+
 	void update(User entity) throws Exception;
 
 	List<Role> getAllRole(String pre) throws Exception;

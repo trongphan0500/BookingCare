@@ -25,8 +25,15 @@ public class MedicineHistoryModal {
 	@Column(name = "created_at")
 	private String createAt;
 
+<<<<<<< HEAD:BookingCare/src/main/java/com/app/booking/springboot/entity/model/storeProcedure/MedicineHistoryModal.java
 	public int getMedicineId() {
 		return medicineId;
+=======
+	private String description;
+
+	public String getCreatedAt() {
+		return createdAt;
+>>>>>>> 56e256c72034e8d8b93ba34b6cbe18eb83a2831b:BookingCare/src/main/java/com/app/booking/springboot/entity/model/storeProcedure/MedicineHistoryModel.java
 	}
 
 	public void setMedicineId(int medicineId) {
@@ -65,6 +72,7 @@ public class MedicineHistoryModal {
 		this.warehouseSessionStatus = warehouseSessionStatus;
 	}
 
+<<<<<<< HEAD:BookingCare/src/main/java/com/app/booking/springboot/entity/model/storeProcedure/MedicineHistoryModal.java
 	public int getQuantity() {
 		return quantity;
 	}
@@ -79,6 +87,14 @@ public class MedicineHistoryModal {
 
 	public void setCreateAt(String createAt) {
 		this.createAt = createAt;
+=======
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+>>>>>>> 56e256c72034e8d8b93ba34b6cbe18eb83a2831b:BookingCare/src/main/java/com/app/booking/springboot/entity/model/storeProcedure/MedicineHistoryModel.java
 	}
 
 }

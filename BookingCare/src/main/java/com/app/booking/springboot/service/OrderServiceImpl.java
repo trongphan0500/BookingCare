@@ -1,17 +1,7 @@
 package com.app.booking.springboot.service;
 
-import java.util.Calendar;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.app.booking.springboot.dao.OrderDao;
-import com.app.booking.springboot.dao.WarehouseSessionDao;
-
 @Service("orderService")
 @Transactional
-public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderDao orderDao;
@@ -31,6 +21,15 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int checkQuantityMedicine(int medicineId, int quatity) throws Exception {
 		return orderDao.checkQuantityMedicine(medicineId, quatity);
+	}
+	@Override
+	public Order saveOrderMedicine(Order order) {
+		return orderDao.saveOrderMedicine(order);
+	}
+
+	@Override
+	public List<Order> getOrderByHistoryId(int id) {
+		return orderDao.getOrderByHistoryId(id);
 	}
 
 }

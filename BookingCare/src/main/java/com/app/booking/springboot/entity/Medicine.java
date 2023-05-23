@@ -95,6 +95,9 @@ public class Medicine {
 
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	
+	
+
 
 	public int getId() {
 		return id;

@@ -12,8 +12,13 @@ public class MedicineResponse {
 
 	private String name;
 
+<<<<<<< HEAD
 	private String avatar;
 //	private byte[] avatar;
+=======
+//	private String avatar;
+	private byte[] avatar;
+>>>>>>> 56e256c72034e8d8b93ba34b6cbe18eb83a2831b
 
 	private String code;
 
@@ -120,11 +125,11 @@ public class MedicineResponse {
 		this.name = name;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

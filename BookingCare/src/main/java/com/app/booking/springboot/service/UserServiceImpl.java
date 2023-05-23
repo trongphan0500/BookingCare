@@ -132,6 +132,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User checkPhone(String phone, int id) throws Exception {
 		return userDao.checkPhone(phone, id);
+
+	}
+
+	@Override
+	public List<Patient> findPatientByName(String name) {
+		// TODO Auto-generated method stub
+		return userDao.findPatientByName(name);
 	}
 
 }

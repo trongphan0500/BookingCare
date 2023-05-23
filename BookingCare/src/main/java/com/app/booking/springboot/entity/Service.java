@@ -104,6 +104,28 @@ public class Service {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+
+	public Service(int id, String code, String name, String description, float price,
+			ExamninationHistory examninationHistory, ServiceType serviceType, List<Registration> registrations,
+			List<Order> orders, Date createdAt, Date updatedAt) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.examninationHistory = examninationHistory;
+		this.serviceType = serviceType;
+		this.registrations = registrations;
+		this.orders = orders;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	public Service() {
+		super();
+	}
+	
 	
 	
 	

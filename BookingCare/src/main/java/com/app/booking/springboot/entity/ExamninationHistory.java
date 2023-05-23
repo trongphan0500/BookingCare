@@ -65,4 +65,124 @@ public class ExamninationHistory {
 	
 	@OneToOne(mappedBy = "examninationHistory")
 	private Order order;
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getTimeDone() {
+		return timeDone;
+	}
+
+	public void setTimeDone(Date timeDone) {
+		this.timeDone = timeDone;
+	}
+
+	public String getTimeExamination() {
+		return timeExamination;
+	}
+
+	public void setTimeExamination(String timeExamination) {
+		this.timeExamination = timeExamination;
+	}
+
+	public Date getReExaminationDate() {
+		return reExaminationDate;
+	}
+
+	public void setReExaminationDate(Date reExaminationDate) {
+		this.reExaminationDate = reExaminationDate;
+	}
+
+	public Consultation getConsultation() {
+		return consultation;
+	}
+
+	public void setConsultation(Consultation consultation) {
+		this.consultation = consultation;
+	}
+
+	public ExamRoom getExamRoom() {
+		return examRoom;
+	}
+
+	public void setExamRoom(ExamRoom examRoom) {
+		this.examRoom = examRoom;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public ExamninationHistory(Date timeDone, String timeExamination, Date reExaminationDate,
+			Consultation consultation, ExamRoom examRoom, Patient patient, Doctor doctor, Date createdAt,
+			Date updatedAt, Order order) {
+		super();
+		this.timeDone = timeDone;
+		this.timeExamination = timeExamination;
+		this.reExaminationDate = reExaminationDate;
+		this.consultation = consultation;
+		this.examRoom = examRoom;
+		this.patient = patient;
+		this.doctor = doctor;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.order = order;
+	}
+
+	public ExamninationHistory() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "ExamninationHistory [id=" + id + ", timeDone=" + timeDone + ", timeExamination=" + timeExamination
+				+ ", reExaminationDate=" + reExaminationDate + ", consultation=" + consultation + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+	
+	
+	
+	
 }

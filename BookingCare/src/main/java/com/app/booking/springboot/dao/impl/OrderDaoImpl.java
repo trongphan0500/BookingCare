@@ -1,5 +1,7 @@
 package com.app.booking.springboot.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
@@ -77,6 +79,19 @@ public class OrderDaoImpl extends AbstractDao<Integer, Order> implements OrderDa
 		default:
 			throw new Exception(messageError);
 		}
+	}
+
+	@Override
+	public Order saveOrderMedicine(Order order) {
+		// TODO Auto-generated method stub
+		return (Order) this.getSession().merge(order);
+	}
+
+	@Override
+	public List<Order> getOrderByHistoryId(int id) {
+		// TODO Auto-generated method stub
+		List<Order> list = this.getSession().createQuery("FROM Order O WHERE examninationHistory = " + id).list();
+		return list;
 	}
 
 }

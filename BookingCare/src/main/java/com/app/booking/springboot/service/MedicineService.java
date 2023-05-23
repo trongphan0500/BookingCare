@@ -1,5 +1,6 @@
 package com.app.booking.springboot.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.app.bookingcare.exceptions.Pagination;
 import com.app.bookingcare.exceptions.StoreProcedureListResult;
 
 public interface MedicineService {
+	ArrayList<Medicine> getMediasfrom(String name);
 
 	StoreProcedureListResult<MedicineAvatar> createMedicine(int categoryId, String name, String avatar, Date expiryDate,
 			int outStockAlertQuantity, float retailPrice, float costPrice, int status, String note, String storageUnit,

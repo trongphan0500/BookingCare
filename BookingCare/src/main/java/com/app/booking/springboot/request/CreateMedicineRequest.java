@@ -21,9 +21,6 @@ public class CreateMedicineRequest {
 //	@NotNull(message = "avatar không được null")
 
 	private String avatar = "";
-//	@Lob
-//	@Column(name = "avatar", columnDefinition = "BLOB")
-//	private byte[] avatar;
 
 	@JsonProperty("expiry_date")
 	private Date expiryDate;

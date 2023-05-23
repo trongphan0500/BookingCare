@@ -57,4 +57,12 @@ public class Role {
 		this.description = description;
 	}
 
+	public Role(int id, String keyMap, String value, String description) {
+		super();
+		this.id = id;
+		this.keyMap = keyMap;
+		this.value = value;
+		this.description = description;
+	}
+
 }
