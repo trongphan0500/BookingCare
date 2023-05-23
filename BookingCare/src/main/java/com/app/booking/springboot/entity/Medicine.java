@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +26,11 @@ public class Medicine {
 
 	private String name;
 
-	private String avatar;
+//	private String avatar;
+
+	@Lob
+	@Column(name = "avatar", columnDefinition = "LONGBLOB")
+	private byte[] avatar;
 
 	private String code;
 
@@ -47,8 +52,8 @@ public class Medicine {
 	@Column(name = "cost_price")
 	private float costPrice;
 
-//	@Column(name = "inventory_quantity")
-//	private int inventoryQuantity;
+	@Column(name = "inventory_quantity")
+	private int inventoryQuantity;
 
 	private int status;
 
@@ -90,6 +95,9 @@ public class Medicine {
 
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	
+	
+
 
 	public int getId() {
 		return id;
@@ -107,19 +115,19 @@ public class Medicine {
 		this.name = name;
 	}
 
-//	public int getInventoryQuantity() {
-//		return inventoryQuantity;
-//	}
-//
-//	public void setInventoryQuantity(int inventoryQuantity) {
-//		this.inventoryQuantity = inventoryQuantity;
-//	}
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
 
-	public String getAvatar() {
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
+	}
+
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

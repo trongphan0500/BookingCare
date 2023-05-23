@@ -12,7 +12,8 @@ public class MedicineResponse {
 
 	private String name;
 
-	private String avatar;
+//	private String avatar;
+	private byte[] avatar;
 
 	private String code;
 
@@ -33,6 +34,9 @@ public class MedicineResponse {
 
 	@JsonProperty("cost_price")
 	private float costPrice;
+
+	@JsonProperty("inventory_quantity")
+	private int inventoryQuantity;
 
 	private int status;
 
@@ -76,6 +80,7 @@ public class MedicineResponse {
 		this.retailPrice = entity.getRetailPrice();
 		this.costPrice = entity.getCostPrice();
 		this.status = entity.getStatus();
+		this.inventoryQuantity = entity.getInventoryQuantity();
 		this.type = entity.getType();
 		this.note = entity.getNote();
 		this.storageUnit = entity.getStorageUnit();
@@ -99,6 +104,14 @@ public class MedicineResponse {
 		this.id = id;
 	}
 
+	public int getInventoryQuantity() {
+		return inventoryQuantity;
+	}
+
+	public void setInventoryQuantity(int inventoryQuantity) {
+		this.inventoryQuantity = inventoryQuantity;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -107,11 +120,11 @@ public class MedicineResponse {
 		this.name = name;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

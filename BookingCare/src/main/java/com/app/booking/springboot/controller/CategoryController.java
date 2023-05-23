@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.booking.springboot.response.BaseResponse;
@@ -31,9 +32,10 @@ public class CategoryController extends BaseController {
 	}
 
 	@GetMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BaseResponse> test() throws Exception {
+	public ResponseEntity<BaseResponse> getCategories(
+			@RequestParam(name = "category_id", required = true, defaultValue = "-1") int categoryId) throws Exception {
 		BaseResponse response = new BaseResponse<>();
-		response.setData(new CategoryResponse(categoryService.findOne(7)));
+		response.setData(new CategoryResponse().mapToList(categoryService.findAll(categoryId)));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

@@ -51,13 +51,17 @@ public class Registration {
 	@JoinColumn(name = "exam_room_id")
 	private ExamRoom examRoom;
 
-	@OneToOne(cascade = CascadeType.ALL)
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "patient_id")
+	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
+	
+	private int stt;
 
 	public int getId() {
 		return id;
@@ -138,5 +142,40 @@ public class Registration {
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
+
+	public int getStt() {
+		return stt;
+	}
+
+	public void setStt(int stt) {
+		this.stt = stt;
+	}
+
+	public Registration(String timeRegister, int status, int type, Date createdAt, Patient patient, int stt) {
+		super();
+		
+		this.timeRegister = timeRegister;
+		this.status = status;
+		this.type = type;
+		this.createdAt = createdAt;
+		this.patient = patient;
+		this.stt = stt;
+	}
+
+	public Registration() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Registration [id=" + id + ", priority=" + priority + ", timeRegister=" + timeRegister + ", status="
+				+ status + ", type=" + type + ", examinationFee=" + examinationFee + ", cardinalNumber="
+				+ cardinalNumber + ", createdAt=" + createdAt + ", services=" + services + ", examRoom=" + examRoom
+				+ ", patient=" + patient + ", doctor=" + doctor + ", stt=" + stt + "]";
+	}
+	
+	
+	
+	
 
 }

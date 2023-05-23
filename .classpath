@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="com/app/booking/spirngboot/|com/app/booking/springboot/security/" kind="src" path="BookingCare/src/main/java"/>
+	<classpathentry kind="src" path="BookingCare/src/main/java/com/app/booking/spirngboot"/>
+	<classpathentry kind="src" path="BookingCare/src/main/java/com/app/booking/springboot/security"/>
+	<classpathentry kind="src" path="BookingCare/src/test/java"/>
+	<classpathentry excluding="com/example/doctorcareserver/security/" kind="src" path="doctorcare-server/src/main/java"/>
+	<classpathentry kind="src" path="doctorcare-server/src/main/java/com/example/doctorcareserver/security"/>
+	<classpathentry kind="src" path="doctorcare-server/src/test/java"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="BookingCare/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="lib" path="BookingCare/bin/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="lib" path="doctorcare-server/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="output" path="doctorcare-server/target/classes"/>
+</classpath>

@@ -1,7 +1,7 @@
 package com.app.booking.springboot.entity;
 
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +31,11 @@ public class User {
 
 	private String phone;
 
-	private String avatar;
+//	private String avatar;
+
+	@Lob
+	@Column(name = "avatar", columnDefinition = "LONGBLOB")
+	private byte[] avatar;
 
 	private int gender;
 
@@ -56,9 +58,11 @@ public class User {
 
 	private String position;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+//	@ManyToOne
+//	@JoinColumn(name = "role_id")
+//	private Role role;
+	@Column(name = "role_id")
+	private int roleId;
 
 	@Column(name = "created_at")
 	private Date createdAt;
@@ -76,6 +80,14 @@ public class User {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 	public void setName(String name) {
@@ -114,11 +126,11 @@ public class User {
 		this.phone = phone;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 
@@ -201,5 +213,42 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public User(int id, String name, String email, String password, String address, String phone, byte[] avatar,
+			int gender, String description, int isActive, int isLogin, int verifyCode, String accessToken,
+			String refeshToken, String position, int roleId, Date createdAt, Date updatedAt) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.phone = phone;
+		this.avatar = avatar;
+		this.gender = gender;
+		this.description = description;
+		this.isActive = isActive;
+		this.isLogin = isLogin;
+		this.verifyCode = verifyCode;
+		this.accessToken = accessToken;
+		this.refeshToken = refeshToken;
+		this.position = position;
+		this.roleId = roleId;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+	
+	
+	public User() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", address="
+				+ address + ", phone=" + phone + ", avatar=" + Arrays.toString(avatar) + ", gender=" + gender + "]";
+	}
+	
+	
 
 }
