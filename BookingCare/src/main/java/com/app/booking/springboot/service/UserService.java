@@ -25,7 +25,7 @@ public interface UserService {
 
 	User findPatient(String phone) throws Exception;
 
-	List<Patient> findPatientByName(String name);
+	List<Patient> findPatientByName(String name)throws Exception;
 
 	void update(User entity) throws Exception;
 

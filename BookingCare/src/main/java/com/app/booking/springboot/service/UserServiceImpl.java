@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Patient> findPatientByName(String name) {
+	public List<Patient> findPatientByName(String name) throws Exception {
 		return userDao.findPatientByName(name);
 	}
 

@@ -55,10 +55,11 @@ public interface UserDao {
 
 	StoreProcedureListResult<UserModal> spULogin(String phone, String password) throws Exception;
 
-//	User findPatient(String phone) throws Exception;
+	User findPatient(String phone) throws Exception;
 
-	List<Patient> findPatientByName(String name);
+	List<Patient> findPatientByName(String name) throws Exception;
 
 	StoreProcedureListResult<UserModal> getUsers(int userId, String keySearch, int sortBy, int isActive, int userDefine,
 			Pagination pagination) throws Exception;
+
 }
