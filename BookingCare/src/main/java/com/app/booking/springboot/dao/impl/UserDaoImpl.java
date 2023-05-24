@@ -1,5 +1,6 @@
 package com.app.booking.springboot.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ParameterMode;
@@ -207,6 +208,36 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		default:
 			throw new Exception(messageError);
 		}
+	}
+
+	public User findPatient(String phone) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			User patient = (User) this.getSession().createQuery("SELECT U FROM User U WHERE U.phone = '" + phone + "'")
+					.getSingleResult();
+			return patient;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+
+	}
+
+	@Override
+	public List<Patient> findPatientByName(String name) {
+		// TODO Auto-generated method stub
+		List<User> us = (List<User>) this.getSession()
+				.createQuery("FROM User M WHERE M.name like '%" + name + "%' and M.roleId=5 ", User.class).list();
+
+		List<Patient> listPatien = new ArrayList<>();
+		for (User user : us) {
+//			listPatien.add((Patient) user);
+			Patient pt = (Patient) user;
+			listPatien.add(pt);
+		}
+		System.out.println(listPatien.size());
+		return listPatien;
+
 	}
 
 }

@@ -58,4 +58,6 @@ public interface UserDao {
 
 	StoreProcedureListResult<UserModal> spULogin(String phone, String password) throws Exception;
 
+	List<Patient> findPatientByName(String name) throws Exception;;
+
 }
